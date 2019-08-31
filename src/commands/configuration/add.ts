@@ -17,7 +17,7 @@ export default class ConfigurationAdd extends ProfileCommand {
   async run() {
     const {flags} = this.parse(ConfigurationAdd)
 
-    const maybeMediaApi = new Try(() => new URL(flags.mediaApiHost!))
+    const maybeMediaApi = new Try(() => new URL(flags.mediaApiHost))
 
     if (!maybeMediaApi.isSuccess) {
       this.error(`${flags.mediaApiHost} is not a valid hostname`, {exit: 1})

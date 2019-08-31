@@ -1,7 +1,9 @@
+type ApiKey = string
+
 interface ProfileConfig {
   name: string,
   mediaApiHost: URL,
-  apiKey: string
+  apiKey: ApiKey
 }
 
 interface Config {
@@ -9,6 +11,7 @@ interface Config {
 }
 
 export {
+  ApiKey,
   ProfileConfig,
   Config
 }

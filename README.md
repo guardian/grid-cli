@@ -31,7 +31,9 @@ USAGE
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
+* [`grid image:upload FILE`](#grid-imageupload-file)
 
+## `grid configuration:add`
 
 Add a configuration profile
 
@@ -58,7 +60,7 @@ USAGE
 
 OPTIONS
   -h, --help             show CLI help
-  -p, --profile=profile  Profile name
+  -p, --profile=profile  [default: default] Profile name
 ```
 
 _See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/configuration/read.ts)_
@@ -79,4 +81,22 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+
+## `grid image:upload FILE`
+
+Upload an image to Grid
+
+```
+USAGE
+  $ grid image:upload FILE
+
+ARGUMENTS
+  FILE  Path to file to upload
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/upload.ts)_
 <!-- commandsstop -->
