@@ -57,7 +57,8 @@ USAGE
   $ grid configuration:read
 
 OPTIONS
-  -h, --help  show CLI help
+  -h, --help             show CLI help
+  -p, --profile=profile  Profile name
 ```
 
 _See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/configuration/read.ts)_

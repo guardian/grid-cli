@@ -1,13 +1,14 @@
-import {Command, flags} from '@oclif/command'
+import {flags} from '@oclif/command'
 
 import Configuration from '../../lib/configuration'
+import ProfileCommand from '../../profile-command'
 
-export default class ConfigurationRead extends Command {
+export default class ConfigurationRead extends ProfileCommand {
   static description = 'Echos current config'
 
   static flags = {
+    ...ProfileCommand.flags,
     help: flags.help({char: 'h'}),
-    profile: flags.string({char: 'p', description: 'Profile name'})
   }
 
   async run() {

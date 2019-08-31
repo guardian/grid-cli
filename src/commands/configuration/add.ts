@@ -1,14 +1,15 @@
-import {Command, flags} from '@oclif/command'
+import {flags} from '@oclif/command'
 
 import Configuration from '../../lib/configuration'
+import ProfileCommand from '../../profile-command'
 import Try from '../../util/try'
 
-export default class ConfigurationAdd extends Command {
+export default class ConfigurationAdd extends ProfileCommand {
   static description = 'Add a configuration profile'
 
   static flags = {
+    ...ProfileCommand.flags,
     help: flags.help({char: 'h'}),
-    profile: flags.string({char: 'p', description: 'Profile name', default: 'default'}),
     mediaApiHost: flags.string({char: 'm', description: 'Hostname for media-api', required: true}),
     apiKey: flags.string({char: 'k', description: 'API key', required: true})
   }
