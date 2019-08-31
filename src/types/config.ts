@@ -1,6 +1,6 @@
 interface ProfileConfig {
   name: string,
-  mediaApiHost: string,
+  mediaApiHost: URL,
   apiKey: string
 }
 
