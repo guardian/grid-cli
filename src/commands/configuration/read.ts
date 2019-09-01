@@ -9,6 +9,7 @@ export default class ConfigurationRead extends ProfileCommand {
   static flags = {
     ...ProfileCommand.flags,
     help: flags.help({char: 'h'}),
+    all: flags.boolean({char: 'a', description: 'show all profiles'})
   }
 
   async run() {
@@ -20,10 +21,10 @@ export default class ConfigurationRead extends ProfileCommand {
       this.error('configuration is empty', {exit: 1})
     }
 
-    if (flags.profile) {
-      this.log(JSON.stringify(configuration.getProfile(flags.profile)))
-    } else {
+    if (flags.all) {
       this.log(JSON.stringify(configuration.config))
+    } else {
+      this.log(JSON.stringify(configuration.getProfile(flags.profile)))
     }
   }
 }

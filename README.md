@@ -59,6 +59,7 @@ USAGE
   $ grid configuration:read
 
 OPTIONS
+  -a, --all              show all profiles
   -h, --help             show CLI help
   -p, --profile=profile  [default: default] Profile name
 ```
