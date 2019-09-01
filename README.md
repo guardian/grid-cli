@@ -31,6 +31,7 @@ USAGE
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
+* [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload FILE`](#grid-imageupload-file)
 
 ## `grid configuration:add`
@@ -82,6 +83,24 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+
+## `grid image:get ID`
+
+Get an Image from the API
+
+```
+USAGE
+  $ grid image:get ID
+
+ARGUMENTS
+  ID  ID of image
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/get.ts)_
 
 ## `grid image:upload FILE`
 
