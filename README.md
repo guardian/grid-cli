@@ -33,6 +33,7 @@ USAGE
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload FILE`](#grid-imageupload-file)
+* [`grid util:id-file FILE`](#grid-utilid-file-file)
 
 ## `grid configuration:add`
 
@@ -119,4 +120,21 @@ OPTIONS
 ```
 
 _See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/upload.ts)_
+
+## `grid util:id-file FILE`
+
+Print the ID a file would get if uploaded to Grid
+
+```
+USAGE
+  $ grid util:id-file FILE
+
+ARGUMENTS
+  FILE  Path to file to upload
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+_See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/util/id-file.ts)_
 <!-- commandsstop -->
