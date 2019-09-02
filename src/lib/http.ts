@@ -9,6 +9,23 @@ class Http {
     this.apiKey = apiKey
   }
 
+  // TODO be stricter on `method` type
+  // public request = (method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE', url: URL, body: any) => {
+  public request = (method: string, url: URL, body: any) => {
+    switch (method.toUpperCase()) {
+    case 'POST':
+      return this.post(url, body)
+    case 'PUT':
+      return this.put(url, body)
+    case 'PATCH':
+      return this.patch(url, body)
+    case 'DELETE':
+      return this.delete(url)
+    default:
+      return this.get(url)
+    }
+  }
+
   public get = (url: URL) => {
     return fetch(url.toString(), {
       method: 'GET',

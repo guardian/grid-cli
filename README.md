@@ -34,6 +34,7 @@ USAGE
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload FILE`](#grid-imageupload-file)
+* [`grid util:curl URL`](#grid-utilcurl-url)
 * [`grid util:id-file FILE`](#grid-utilid-file-file)
 
 ## `grid collection:add-root NAME`
@@ -139,6 +140,26 @@ OPTIONS
 ```
 
 _See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/upload.ts)_
+
+## `grid util:curl URL`
+
+Make an authenticated request to a Grid URL. Assumes response is JSON.
+
+```
+USAGE
+  $ grid util:curl URL
+
+ARGUMENTS
+  URL  The URL to request
+
+OPTIONS
+  -d, --data=data                         The body of the request
+  -h, --help                              show CLI help
+  -p, --profile=profile                   [default: default] Profile name
+  -x, --method=GET|POST|PUT|PATCH|DELETE  [default: GET] The HTTP verb to use
+```
+
+_See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/util/curl.ts)_
 
 ## `grid util:id-file FILE`
 
