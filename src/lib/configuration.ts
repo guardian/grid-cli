@@ -27,7 +27,7 @@ class Configuration {
       ? {profiles: this.squashProfiles(this.config!.profiles, newProfile)}
       : {profiles: [newProfile]}
     fs.writeFileSync(Configuration.filePath, JSON.stringify(updatedConfig))
-    return updatedConfig
+    return newProfile
   }
 
   public getProfile = (name: string) => {

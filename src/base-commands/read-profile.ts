@@ -1,3 +1,5 @@
+import cli from 'cli-ux'
+
 import ConfigurationAdd from '../commands/configuration/add'
 import Configuration from '../lib/configuration'
 import {ProfileConfig} from '../types/config'
@@ -19,10 +21,17 @@ export default abstract class ReadProfileCommand extends ProfileCommand {
     const configuration = new Configuration()
     const profile = configuration.getProfile(flags.profile)
 
-    if (!configuration.isValid || !profile) {
-      this.error(`No configuration found for profile ${flags.profile}. Add one with 'grid ${ConfigurationAdd.id} --profile ${flags.profile}'`, {exit: 1})
-    }
+    if (profile) {
+      this.profile = profile
+    } else {
+      const addConfigNow = await cli.confirm(`No configuration found for profile ${flags.profile}. Add one now?`)
 
-    this.profile = profile
+      if (addConfigNow) {
+        this.profile = await ConfigurationAdd.run(['-p', flags.profile, '-x'])
+      } else {
+        this.log(`To add a configuration, run ${ConfigurationAdd.id}`)
+        this.exit(1)
+      }
+    }
   }
 }

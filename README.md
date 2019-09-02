@@ -66,8 +66,8 @@ USAGE
 
 OPTIONS
   -h, --help                       show CLI help
-  -k, --apiKey=apiKey              (required) API key
-  -m, --mediaApiHost=mediaApiHost  (required) Hostname for media-api
+  -k, --apiKey=apiKey              API key
+  -m, --mediaApiHost=mediaApiHost  Hostname for media-api
   -p, --profile=profile            [default: default] Profile name
 ```
 
