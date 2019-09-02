@@ -28,12 +28,31 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`grid collection:add-root NAME`](#grid-collectionadd-root-name)
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload FILE`](#grid-imageupload-file)
 * [`grid util:id-file FILE`](#grid-utilid-file-file)
+
+## `grid collection:add-root NAME`
+
+Add a root collection
+
+```
+USAGE
+  $ grid collection:add-root NAME
+
+ARGUMENTS
+  NAME  Root collection to add
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/collection/add-root.ts)_
 
 ## `grid configuration:add`
 
