@@ -1,17 +1,16 @@
 import {flags} from '@oclif/command'
 import {existsSync, readFileSync} from 'fs'
 
-import Configuration from '../../lib/configuration'
+import ReadProfileCommand from '../../base-commands/read-profile'
 import Http from '../../lib/http'
 import ServiceDiscovery from '../../lib/service-discovery'
-import ProfileCommand from '../../profile-command'
 import Try from '../../util/try'
 
-export default class ImageUpload extends ProfileCommand {
+export default class ImageUpload extends ReadProfileCommand {
   static description = 'Upload an image to Grid. Can be a local file or a publicly accessible URL'
 
   static flags = {
-    ...ProfileCommand.flags,
+    ...ReadProfileCommand.flags,
     help: flags.help({char: 'h'}),
   }
 
@@ -20,7 +19,7 @@ export default class ImageUpload extends ProfileCommand {
   ]
 
   async run() {
-    const {flags, args: {image}} = this.parse(ImageUpload)
+    const {args: {image}} = this.parse(ImageUpload)
 
     const maybeUrl = new Try(() => new URL(image))
 
@@ -28,20 +27,10 @@ export default class ImageUpload extends ProfileCommand {
       this.error(`File ${image} does not exist`, {exit: 1})
     }
 
-    const configuration = new Configuration()
+    const profile = this.profile!
 
-    if (!configuration.isValid) {
-      this.error('configuration is empty', {exit: 1})
-    }
-
-    const profile = configuration.getProfile(flags.profile)
-
-    if (!profile) {
-      this.error(`no configuration for profile ${flags.profile}`, {exit: 1})
-    }
-
-    const http = new Http(profile!.apiKey)
-    const serviceDiscovery = await new ServiceDiscovery(http, profile!.mediaApiHost).discover()
+    const http = new Http(profile.apiKey)
+    const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const loader = serviceDiscovery.getLink('loader')
 
     if (!loader) {

@@ -1,7 +1,7 @@
 import {flags} from '@oclif/command'
 
+import ProfileCommand from '../../base-commands/profile'
 import Configuration from '../../lib/configuration'
-import ProfileCommand from '../../profile-command'
 
 export default class ConfigurationRead extends ProfileCommand {
   static description = 'Echos current config'

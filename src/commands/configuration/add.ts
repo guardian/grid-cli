@@ -1,7 +1,7 @@
 import {flags} from '@oclif/command'
 
+import ProfileCommand from '../../base-commands/profile'
 import Configuration from '../../lib/configuration'
-import ProfileCommand from '../../profile-command'
 import Try from '../../util/try'
 
 export default class ConfigurationAdd extends ProfileCommand {

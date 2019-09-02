@@ -1,15 +1,14 @@
 import {flags} from '@oclif/command'
 
-import Configuration from '../../lib/configuration'
+import ReadProfileCommand from '../../base-commands/read-profile'
 import Http from '../../lib/http'
 import ServiceDiscovery from '../../lib/service-discovery'
-import ProfileCommand from '../../profile-command'
 
-export default class CollectionAddRoot extends ProfileCommand {
+export default class CollectionAddRoot extends ReadProfileCommand {
   static description = 'Add a root collection'
 
   static flags = {
-    ...ProfileCommand.flags,
+    ...ReadProfileCommand.flags,
     help: flags.help({char: 'h'})
   }
 
@@ -18,22 +17,12 @@ export default class CollectionAddRoot extends ProfileCommand {
   ]
 
   async run() {
-    const {args, flags} = this.parse(CollectionAddRoot)
+    const {args} = this.parse(CollectionAddRoot)
 
-    const configuration = new Configuration()
+    const profile = this.profile!
 
-    if (!configuration.isValid) {
-      this.error('configuration is empty', {exit: 1})
-    }
-
-    const profile = configuration.getProfile(flags.profile)
-
-    if (!profile) {
-      this.error(`no configuration for profile ${flags.profile}`, {exit: 1})
-    }
-
-    const http = new Http(profile!.apiKey)
-    const serviceDiscovery = await new ServiceDiscovery(http, profile!.mediaApiHost).discover()
+    const http = new Http(profile.apiKey)
+    const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const collectionsRoot = serviceDiscovery.getLink('collections')
 
     if (!collectionsRoot) {
