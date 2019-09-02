@@ -32,6 +32,7 @@ USAGE
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
+* [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload FILE`](#grid-imageupload-file)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -104,6 +105,25 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+
+## `grid image:download ID`
+
+describe the command here
+
+```
+USAGE
+  $ grid image:download ID
+
+ARGUMENTS
+  ID  ID of image
+
+OPTIONS
+  -d, --directory=directory  [default: /tmp] directory to download to
+  -h, --help                 show CLI help
+  -p, --profile=profile      [default: default] Profile name
+```
+
+_See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/download.ts)_
 
 ## `grid image:get ID`
 

@@ -1,4 +1,7 @@
+import {createWriteStream} from 'fs'
 import fetch from 'node-fetch'
+import {pipeline} from 'stream'
+import {promisify} from 'util'
 
 import {ApiKey} from '../types/config'
 
@@ -24,6 +27,15 @@ class Http {
     default:
       return this.get(url)
     }
+  }
+
+  public async download(url: URL, location: string) {
+    // inspired by https://github.com/bitinn/node-fetch/issues/375#issuecomment-495953540
+    const response = await fetch(url.toString())
+    if (!response.ok) throw new Error(`unexpected response ${response.statusText}`)
+    const streamPipeline = promisify(pipeline)
+    await streamPipeline(response.body, createWriteStream(location))
+    return location
   }
 
   public get = (url: URL) => {
