@@ -34,7 +34,7 @@ USAGE
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get ID`](#grid-imageget-id)
-* [`grid image:upload FILE`](#grid-imageupload-file)
+* [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid util:curl URL`](#grid-utilcurl-url)
 * [`grid util:id-file FILE`](#grid-utilid-file-file)
 
@@ -143,16 +143,16 @@ OPTIONS
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/get.ts)_
 
-## `grid image:upload FILE`
+## `grid image:upload IMAGE`
 
-Upload an image to Grid
+Upload an image to Grid. Can be a local file or a publicly accessible URL
 
 ```
 USAGE
-  $ grid image:upload FILE
+  $ grid image:upload IMAGE
 
 ARGUMENTS
-  FILE  Path to file to upload
+  IMAGE  Image to upload. If a URL, it must be publicly accessible
 
 OPTIONS
   -h, --help             show CLI help

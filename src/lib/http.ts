@@ -45,7 +45,7 @@ class Http {
     }).then(_ => _.json())
   }
 
-  public post = (url: URL, body: any) => {
+  public post = (url: URL, body?: any) => {
     return fetch(url.toString(), {
       method: 'POST',
       headers: this.headers(),
