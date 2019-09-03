@@ -10,6 +10,7 @@ Helpful commands for interacting with Grid, The Guardian&#39;s image management 
 
 <!-- toc -->
 * [Usage](#usage)
+* [Developing](#developing)
 * [Commands](#commands)
 <!-- tocstop -->
 # Usage
@@ -26,6 +27,10 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+# Developing
+<!-- developing -->
+There are a few handy scripts in the [./script](script) directory. Hopefully they are self documenting...
+<!-- developingstop -->
 # Commands
 <!-- commands -->
 * [`grid collection:add-root NAME`](#grid-collectionadd-root-name)
