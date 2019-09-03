@@ -4,7 +4,8 @@ import * as path from 'path'
 import {Config, ProfileConfig} from '../types/config'
 
 class Configuration {
-  private static filePath = path.join(process.env.HOME || '', '.gu', 'grid-cli-config.json')
+  private static configDirectory = path.join(process.env.HOME || '', '.gu')
+  private static filePath = path.join(Configuration.configDirectory, 'grid-cli-config.json')
 
   public isValid: boolean
   public exists: boolean
@@ -26,6 +27,11 @@ class Configuration {
     const updatedConfig: Config = this.isValid
       ? {profiles: this.squashProfiles(this.config!.profiles, newProfile)}
       : {profiles: [newProfile]}
+
+    if (!fs.existsSync(Configuration.configDirectory)) {
+      fs.mkdirSync(Configuration.configDirectory)
+    }
+
     fs.writeFileSync(Configuration.filePath, JSON.stringify(updatedConfig))
     return newProfile
   }
