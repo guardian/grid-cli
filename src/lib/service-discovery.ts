@@ -13,7 +13,7 @@ class ServiceDiscovery {
   }
 
   async discover() {
-    this.services = await this.http.get(this.rootUrl)
+    this.services = await this.http.get(this.rootUrl).then(_ => _.json())
     return this
   }
 

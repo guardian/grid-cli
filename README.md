@@ -37,6 +37,7 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
+* [`grid image:delete ID`](#grid-imagedelete-id)
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
@@ -110,6 +111,24 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+
+## `grid image:delete ID`
+
+Delete an image from Grid
+
+```
+USAGE
+  $ grid image:delete ID
+
+ARGUMENTS
+  ID  ID of image
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/delete.ts)_
 
 ## `grid image:download ID`
 

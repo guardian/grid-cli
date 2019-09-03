@@ -29,7 +29,7 @@ export default class CollectionAddRoot extends HttpCommand {
     }
 
     const url = new URL(`${collectionsRoot!.href.toString()}/collections`)
-    const newCollection = await http.post(url, JSON.stringify({data: args.name}))
+    const newCollection = await http.post(url, JSON.stringify({data: args.name})).then(_ => _.json())
     this.log(JSON.stringify(newCollection))
   }
 }

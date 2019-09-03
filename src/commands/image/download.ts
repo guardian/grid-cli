@@ -21,7 +21,7 @@ export default class ImageDownload extends HttpCommand {
     const http = this.http!
 
     const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
-    const image = await http.get(url)
+    const image = await http.get(url).then(_ => _.json())
     // TODO stricter types
     const secureUrl = new URL(image.data.source.secureUrl)
     const download = await http.download(secureUrl, `${flags.directory}/${args.id}`)

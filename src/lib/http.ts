@@ -42,7 +42,7 @@ class Http {
     return fetch(url.toString(), {
       method: 'GET',
       headers: this.headers()
-    }).then(_ => _.json())
+    })
   }
 
   public post = (url: URL, body?: any) => {
@@ -50,7 +50,7 @@ class Http {
       method: 'POST',
       headers: this.headers(),
       body
-    }).then(_ => _.json())
+    })
   }
 
   public put = (url: URL, body: any) => {
@@ -58,7 +58,7 @@ class Http {
       method: 'PUT',
       headers: this.headers(),
       body
-    }).then(_ => _.json())
+    })
   }
 
   public patch = (url: URL, body: any) => {
@@ -66,14 +66,14 @@ class Http {
       method: 'PATCH',
       headers: this.headers(),
       body
-    }).then(_ => _.json())
+    })
   }
 
   public delete = (url: URL) => {
     return fetch(url.toString(), {
       method: 'DELETE',
       headers: this.headers()
-    }).then(_ => _.json())
+    })
   }
 
   private headers() {

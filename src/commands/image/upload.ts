@@ -39,11 +39,11 @@ export default class ImageUpload extends HttpCommand {
     // Grid has a different endpoint for uploading an image as binary and for uploading the image via a url
     if (maybeUrl.isSuccess) {
       const url = new URL(`${loader!.href.toString()}/imports?uri=${encodeURIComponent(maybeUrl.get().toString())}`)
-      const uploadedImage = await http.post(url)
+      const uploadedImage = await http.post(url).then(_ => _.json())
       this.log(JSON.stringify(uploadedImage))
     } else {
       const url = new URL(loader!.href.toString() + '/images')
-      const uploadedImage = await http.post(url, readFileSync(image))
+      const uploadedImage = await http.post(url, readFileSync(image)).then(_ => _.json())
       this.log(JSON.stringify(uploadedImage))
     }
   }
