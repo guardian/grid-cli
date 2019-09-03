@@ -1,7 +1,6 @@
 import {flags} from '@oclif/command'
 
 import ReadProfileCommand from '../../base-commands/read-profile'
-import Http from '../../lib/http'
 import ServiceDiscovery from '../../lib/service-discovery'
 
 export default class CollectionAddRoot extends ReadProfileCommand {
@@ -20,8 +19,8 @@ export default class CollectionAddRoot extends ReadProfileCommand {
     const {args} = this.parse(CollectionAddRoot)
 
     const profile = this.profile!
+    const http = this.http!
 
-    const http = new Http(profile.apiKey)
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const collectionsRoot = serviceDiscovery.getLink('collections')
 

@@ -1,7 +1,6 @@
 import {flags} from '@oclif/command'
 
 import ReadProfileCommand from '../../base-commands/read-profile'
-import Http from '../../lib/http'
 
 export default class ImageDownload extends ReadProfileCommand {
   static description = 'describe the command here'
@@ -19,8 +18,8 @@ export default class ImageDownload extends ReadProfileCommand {
   async run() {
     const {args, flags} = this.parse(ImageDownload)
     const profile = this.profile!
+    const http = this.http!
 
-    const http = new Http(profile.apiKey)
     const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
     const image = await http.get(url)
     // TODO stricter types

@@ -2,7 +2,6 @@ import {flags} from '@oclif/command'
 import {existsSync, readFileSync} from 'fs'
 
 import ReadProfileCommand from '../../base-commands/read-profile'
-import Http from '../../lib/http'
 import ServiceDiscovery from '../../lib/service-discovery'
 import Try from '../../util/try'
 
@@ -28,8 +27,8 @@ export default class ImageUpload extends ReadProfileCommand {
     }
 
     const profile = this.profile!
+    const http = this.http!
 
-    const http = new Http(profile.apiKey)
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const loader = serviceDiscovery.getLink('loader')
 

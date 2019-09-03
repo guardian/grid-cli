@@ -1,7 +1,6 @@
 import {flags} from '@oclif/command'
 
 import ReadProfileCommand from '../../base-commands/read-profile'
-import Http from '../../lib/http'
 
 export default class ImageGet extends ReadProfileCommand {
   static description = 'Get an Image from the API'
@@ -19,8 +18,8 @@ export default class ImageGet extends ReadProfileCommand {
     const {args} = this.parse(ImageGet)
 
     const profile = this.profile!
+    const http = this.http!
 
-    const http = new Http(profile.apiKey)
     const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
     const image = await http.get(url)
     this.log(JSON.stringify(image))
