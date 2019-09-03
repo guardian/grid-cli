@@ -41,6 +41,7 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get ID`](#grid-imageget-id)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
+* [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
 * [`grid util:id-file FILE`](#grid-utilid-file-file)
 
@@ -184,6 +185,24 @@ OPTIONS
 ```
 
 _See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/upload.ts)_
+
+## `grid image:visit ID`
+
+View image in the browser
+
+```
+USAGE
+  $ grid image:visit ID
+
+ARGUMENTS
+  ID  ID of image
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v0.0.0/src/commands/image/visit.ts)_
 
 ## `grid util:curl URL`
 
