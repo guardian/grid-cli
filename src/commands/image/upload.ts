@@ -1,15 +1,15 @@
 import {flags} from '@oclif/command'
 import {existsSync, readFileSync} from 'fs'
 
-import ReadProfileCommand from '../../base-commands/read-profile'
+import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'
 import Try from '../../util/try'
 
-export default class ImageUpload extends ReadProfileCommand {
+export default class ImageUpload extends HttpCommand {
   static description = 'Upload an image to Grid. Can be a local file or a publicly accessible URL'
 
   static flags = {
-    ...ReadProfileCommand.flags,
+    ...HttpCommand.flags,
     help: flags.help({char: 'h'}),
   }
 

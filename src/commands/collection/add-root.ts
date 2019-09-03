@@ -1,13 +1,13 @@
 import {flags} from '@oclif/command'
 
-import ReadProfileCommand from '../../base-commands/read-profile'
+import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'
 
-export default class CollectionAddRoot extends ReadProfileCommand {
+export default class CollectionAddRoot extends HttpCommand {
   static description = 'Add a root collection'
 
   static flags = {
-    ...ReadProfileCommand.flags,
+    ...HttpCommand.flags,
     help: flags.help({char: 'h'})
   }
 

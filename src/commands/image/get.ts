@@ -1,12 +1,12 @@
 import {flags} from '@oclif/command'
 
-import ReadProfileCommand from '../../base-commands/read-profile'
+import HttpCommand from '../../base-commands/http'
 
-export default class ImageGet extends ReadProfileCommand {
+export default class ImageGet extends HttpCommand {
   static description = 'Get an Image from the API'
 
   static flags = {
-    ...ReadProfileCommand.flags,
+    ...HttpCommand.flags,
     help: flags.help({char: 'h'})
   }
 

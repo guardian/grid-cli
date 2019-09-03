@@ -1,12 +1,12 @@
 import {flags} from '@oclif/command'
 
-import ReadProfileCommand from '../../base-commands/read-profile'
+import HttpCommand from '../../base-commands/http'
 
-export default class ImageDownload extends ReadProfileCommand {
+export default class ImageDownload extends HttpCommand {
   static description = 'describe the command here'
 
   static flags = {
-    ...ReadProfileCommand.flags,
+    ...HttpCommand.flags,
     help: flags.help({char: 'h'}),
     directory: flags.string({char: 'd', description: 'directory to download to', default: '/tmp'}),
   }

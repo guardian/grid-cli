@@ -1,13 +1,13 @@
 import {flags} from '@oclif/command'
 
-import ReadProfileCommand from '../../base-commands/read-profile'
+import HttpCommand from '../../base-commands/http'
 import Try from '../../util/try'
 
-export default class UtilCurl extends ReadProfileCommand {
+export default class UtilCurl extends HttpCommand {
   static description = 'Make an authenticated request to a Grid URL. Assumes response is JSON.'
 
   static flags = {
-    ...ReadProfileCommand.flags,
+    ...HttpCommand.flags,
     help: flags.help({char: 'h'}),
     method: flags.string({
       char: 'x',

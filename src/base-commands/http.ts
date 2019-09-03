@@ -7,7 +7,7 @@ import {ProfileConfig} from '../types/config'
 
 import ProfileCommand from './profile'
 
-export default abstract class ReadProfileCommand extends ProfileCommand {
+export default abstract class HttpCommand extends ProfileCommand {
   static flags = {
     ...ProfileCommand.flags,
   }
