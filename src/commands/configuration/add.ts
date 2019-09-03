@@ -1,5 +1,6 @@
 import {flags} from '@oclif/command'
 import cli from 'cli-ux'
+import {URL} from 'url'
 
 import ProfileCommand from '../../base-commands/profile'
 import Configuration from '../../lib/configuration'

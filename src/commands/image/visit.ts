@@ -1,5 +1,6 @@
 import {flags} from '@oclif/command'
 import * as open from 'open'
+import {URL} from 'url'
 
 import HttpCommand from '../../base-commands/http'
 

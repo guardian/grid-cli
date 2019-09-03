@@ -1,5 +1,6 @@
 import {flags} from '@oclif/command'
 import {existsSync, readFileSync} from 'fs'
+import {URL} from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'

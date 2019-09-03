@@ -1,4 +1,5 @@
 import {flags} from '@oclif/command'
+import {URL} from 'url'
 
 import HttpCommand from '../../base-commands/http'
 
@@ -22,7 +23,7 @@ export default class ImageDelete extends HttpCommand {
 
     const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
     const response = await http.delete(url)
-    
+
     if (response.status === 202) {
       this.log('Image deleted')
     } else {

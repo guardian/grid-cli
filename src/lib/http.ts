@@ -1,6 +1,7 @@
 import {createWriteStream} from 'fs'
 import fetch from 'node-fetch'
 import {pipeline} from 'stream'
+import {URL} from 'url'
 import {promisify} from 'util'
 
 import {ApiKey} from '../types/config'

@@ -1,3 +1,5 @@
+import {URL} from 'url'
+
 interface Data {
   description: string
 }

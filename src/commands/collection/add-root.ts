@@ -1,4 +1,5 @@
 import {flags} from '@oclif/command'
+import {URL} from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'

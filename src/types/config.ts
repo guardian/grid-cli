@@ -1,3 +1,5 @@
+import {URL} from 'url'
+
 type ApiKey = string
 
 interface ProfileConfig {

@@ -1,3 +1,5 @@
+import {URL} from 'url'
+
 import {Services} from '../types/service'
 
 import Http from './http'
