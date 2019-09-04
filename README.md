@@ -9,10 +9,25 @@ Helpful commands for interacting with Grid, The Guardian&#39;s image management 
 [![License](https://img.shields.io/npm/l/@guardian/grid-cli.svg)](https://github.com/guardian/grid-cli/blob/master/package.json)
 
 <!-- toc -->
+* [Installing](#installing)
 * [Usage](#usage)
 * [Developing](#developing)
 * [Commands](#commands)
 <!-- tocstop -->
+# Installing
+<!-- installing -->
+grid-cli can be installed using either NPM or Brew
+
+## NPM
+```sh
+npm install -g @guardian/grid-cli
+````
+
+## Brew
+```sh
+brew install guardian/devtools/grid-cli
+```
+<!-- installingstop -->
 # Usage
 <!-- usage -->
 ```sh-session
