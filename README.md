@@ -23,10 +23,6 @@ grid-cli can be installed using either NPM or Brew
 npm install -g @guardian/grid-cli
 ````
 
-## Brew
-```sh
-brew install guardian/devtools/grid-cli
-```
 <!-- installingstop -->
 # Usage
 <!-- usage -->
