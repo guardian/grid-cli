@@ -35,7 +35,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.0.1 darwin-x64 node-v12.9.1
+@guardian/grid-cli/1.0.1 darwin-x64 node-v12.12.0
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -55,7 +55,7 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:delete ID`](#grid-imagedelete-id)
 * [`grid image:download ID`](#grid-imagedownload-id)
-* [`grid image:get ID`](#grid-imageget-id)
+* [`grid image:get [ID]`](#grid-imageget-id)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -189,13 +189,13 @@ OPTIONS
 
 _See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.0.1/src/commands/image/download.ts)_
 
-## `grid image:get ID`
+## `grid image:get [ID]`
 
 Get an Image from the API
 
 ```
 USAGE
-  $ grid image:get ID
+  $ grid image:get [ID]
 
 ARGUMENTS
   ID  ID of image

@@ -12,16 +12,22 @@ export default class ImageGet extends HttpCommand {
   }
 
   static args = [
-    {name: 'id', description: 'ID of image', required: true}
+    {name: 'id', description: 'ID of image'}
   ]
 
   async run() {
     const {args} = this.parse(ImageGet)
 
+    const id = args.id
+
     const profile = this.profile!
     const http = this.http!
 
-    const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
+    const mainEndpoint = `${profile.mediaApiHost}images`
+
+    const endpoint = id ? `${mainEndpoint}/${id}` : mainEndpoint
+
+    const url = new URL(endpoint)
     const image = await http.get(url).then(_ => _.json())
     this.log(JSON.stringify(image))
   }
