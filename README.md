@@ -35,7 +35,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.1.0 darwin-x64 node-v12.12.0
+@guardian/grid-cli/1.1.0 darwin-x64 node-v12.9.1
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -52,6 +52,8 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 * [`grid collection:add-root NAME`](#grid-collectionadd-root-name)
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
+* [`grid elasticsearch:snapshot:list-repositories`](#grid-elasticsearchsnapshotlist-repositories)
+* [`grid elasticsearch:snapshot:restore-from-remote [FILE]`](#grid-elasticsearchsnapshotrestore-from-remote-file)
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:delete ID`](#grid-imagedelete-id)
 * [`grid image:download ID`](#grid-imagedownload-id)
@@ -134,6 +136,37 @@ OPTIONS
 ```
 
 _See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/configuration/read.ts)_
+
+## `grid elasticsearch:snapshot:list-repositories`
+
+List elasticsearch snapshot repositories
+
+```
+USAGE
+  $ grid elasticsearch:snapshot:list-repositories
+
+OPTIONS
+  -h, --help           show CLI help
+  -t, --target=target  (required)
+```
+
+_See code: [src/commands/elasticsearch/snapshot/list-repositories.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/elasticsearch/snapshot/list-repositories.ts)_
+
+## `grid elasticsearch:snapshot:restore-from-remote [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ grid elasticsearch:snapshot:restore-from-remote [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/elasticsearch/snapshot/restore-from-remote.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/elasticsearch/snapshot/restore-from-remote.ts)_
 
 ## `grid help [COMMAND]`
 

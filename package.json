@@ -8,6 +8,7 @@
   },
   "bugs": "https://github.com/guardian/grid-cli/issues",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.5.0",
     "@oclif/command": "^1.5.18",
     "@oclif/config": "^1.13.3",
     "@oclif/plugin-autocomplete": "^0.1.3",
