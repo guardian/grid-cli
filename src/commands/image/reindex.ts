@@ -59,7 +59,7 @@ export default class ImageReingest extends ApiCommand {
     diffAgainstES: boolean
   ) {
     if (diffAgainstES) {
-      const image = await this.fetchImage(id)
+      const image = await this.fetchImage(id, 'raw')
       const imageDiff = diff.diffJson(image.data || {}, projection)
       imageDiff
         .map(this.changeToConsoleString)
