@@ -26,8 +26,8 @@ export default class ImageReingest extends ApiCommand {
   static args = [
     { name: 'id', description: 'ID of image', required: true },
     {
-      name: 'imageLoaderHost',
-      description: 'The root for the Image Loader service',
+      name: 'adminToolsHost',
+      description: 'The root for the Admin Tools service',
       required: true
     }
   ]
@@ -36,13 +36,13 @@ export default class ImageReingest extends ApiCommand {
     const { args, flags } = this.parse(ImageReingest)
 
     const imageId: string = args.id
-    const imageLoaderHost: string = args.imageLoaderHost
+    const adminToolsHost: string = args.adminToolsHost
 
     const http = this.http!
     const dryRun = flags.dryRun
     const compare = flags.compare
 
-    const endpoint = `${imageLoaderHost}images/project/${imageId}`
+    const endpoint = `${adminToolsHost}images/${imageId}/project`
     const url = new URL(endpoint)
     const projection: object = await http.get(url).then(_ => _.json())
 
@@ -60,8 +60,10 @@ export default class ImageReingest extends ApiCommand {
   ) {
     if (diffAgainstES) {
       const image = await this.fetchImage(id)
-      const imageDiff = diff.diffJson(image.data, projection)
-      this.printDiff(imageDiff)
+      const imageDiff = diff.diffJson(image.data || {}, projection)
+      imageDiff
+        .map(this.changeToConsoleString)
+        .map(_ => console.log(_))
     } else {
       console.log(projection)
     }
@@ -71,10 +73,8 @@ export default class ImageReingest extends ApiCommand {
     console.log('Not yet implemented')
   }
 
-  private printDiff(changeSet: Change[]) {
-    changeSet.forEach(change => {
-      const color = change.added ? 'green' : change.removed ? 'red' : 'grey'
-      console.log(colors[color](change.value))
-    })
+  private changeToConsoleString(change: Change) {
+    const color = change.added ? 'green' : change.removed ? 'red' : 'grey'
+    return colors[color](change.value)
   }
 }

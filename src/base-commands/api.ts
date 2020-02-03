@@ -1,6 +1,4 @@
-import cli from "cli-ux";
-
-import HttpCommand from "./http";
+import HttpCommand from "./http"
 
 export default abstract class ApiCommand extends HttpCommand {
   protected async fetchImage(id: string) {
@@ -8,7 +6,7 @@ export default abstract class ApiCommand extends HttpCommand {
 
     const endpoint = id ? `${mainEndpoint}/${id}` : mainEndpoint
 
-    const url = new URL(endpoint);
+    const url = new URL(endpoint)
     return this.http!.get(url).then(_ => _.json())
   }
 }
