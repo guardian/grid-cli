@@ -1,5 +1,4 @@
 import {flags} from '@oclif/command'
-import {URL} from 'url'
 
 import ApiCommand from '../../base-commands/api'
 

@@ -1,4 +1,4 @@
-import HttpCommand from "./http"
+import HttpCommand from './http'
 
 export default abstract class ApiCommand extends HttpCommand {
   protected async fetchImage(id: string, suffix?: string) {

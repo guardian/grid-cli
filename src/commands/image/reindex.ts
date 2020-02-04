@@ -1,7 +1,6 @@
-import { flags } from '@oclif/command'
+import {flags} from '@oclif/command'
 import * as colors from 'colors/safe'
 import * as diff from 'diff'
-import { Change } from 'diff'
 
 import ApiCommand from '../../base-commands/api'
 import ServiceDiscovery from '../../lib/service-discovery'
@@ -11,7 +10,7 @@ export default class ImageReingest extends ApiCommand {
 
   static flags = {
     ...ApiCommand.flags,
-    help: flags.help({ char: 'h' }),
+    help: flags.help({char: 'h'}),
     dryRun: flags.boolean({
       name: 'dry-run',
       description: 'Display the result of the reingestion only',
@@ -24,10 +23,10 @@ export default class ImageReingest extends ApiCommand {
     })
   }
 
-  static args = [{ name: 'id', description: 'ID of image', required: true }]
+  static args = [{name: 'id', description: 'ID of image', required: true}]
 
   async run() {
-    const { args, flags } = this.parse(ImageReingest)
+    const {args, flags} = this.parse(ImageReingest)
 
     const imageId: string = args.id
 
@@ -40,7 +39,7 @@ export default class ImageReingest extends ApiCommand {
     const adminTools = serviceDiscovery.getLink('admin-tools')
 
     if (!adminTools) {
-      this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, { exit: 1 })
+      this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, {exit: 1})
     }
 
     const endpoint = `${adminTools.href}/images/projection/${imageId}`
@@ -74,7 +73,7 @@ export default class ImageReingest extends ApiCommand {
     console.log('Not yet implemented')
   }
 
-  private changeToConsoleString(change: Change) {
+  private changeToConsoleString(change: diff.Change) {
     const color = change.added ? 'green' : change.removed ? 'red' : 'grey'
     return colors[color](change.value)
   }
