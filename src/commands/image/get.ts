@@ -1,13 +1,12 @@
 import {flags} from '@oclif/command'
-import {URL} from 'url'
 
-import HttpCommand from '../../base-commands/http'
+import ApiCommand from '../../base-commands/api'
 
-export default class ImageGet extends HttpCommand {
+export default class ImageGet extends ApiCommand {
   static description = 'Get an Image from the API'
 
   static flags = {
-    ...HttpCommand.flags,
+    ...ApiCommand.flags,
     help: flags.help({char: 'h'})
   }
 
@@ -20,15 +19,7 @@ export default class ImageGet extends HttpCommand {
 
     const id = args.id
 
-    const profile = this.profile!
-    const http = this.http!
-
-    const mainEndpoint = `${profile.mediaApiHost}images`
-
-    const endpoint = id ? `${mainEndpoint}/${id}` : mainEndpoint
-
-    const url = new URL(endpoint)
-    const image = await http.get(url).then(_ => _.json())
+    const image = await this.fetchImage(id)
     this.log(JSON.stringify(image))
   }
 }
