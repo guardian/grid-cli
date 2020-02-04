@@ -56,7 +56,7 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 * [`grid image:delete ID`](#grid-imagedelete-id)
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get [ID]`](#grid-imageget-id)
-* [`grid image:reindex ID IMAGELOADERHOST`](#grid-imagereindex-id-imageloaderhost)
+* [`grid image:reindex ID`](#grid-imagereindex-id)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -208,17 +208,16 @@ OPTIONS
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/get.ts)_
 
-## `grid image:reindex ID IMAGELOADERHOST`
+## `grid image:reindex ID`
 
 Reindex an image already present in the images bucket
 
 ```
 USAGE
-  $ grid image:reindex ID IMAGELOADERHOST
+  $ grid image:reindex ID
 
 ARGUMENTS
-  ID               ID of image
-  IMAGELOADERHOST  The root for the Image Loader service
+  ID  ID of image
 
 OPTIONS
   -c, --compare          Do a dry run, and display the difference between the result and the data returned for this

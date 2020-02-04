@@ -42,7 +42,7 @@ export default class ImageReingest extends ApiCommand {
       this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, {exit: 1})
     }
 
-    const endpoint = `${adminTools.href}/images/projection/${imageId}`
+    const endpoint = `${adminTools!.href}/images/projection/${imageId}`
     const url = new URL(endpoint)
     const projection: object = await http.get(url).then(_ => _.json())
 
