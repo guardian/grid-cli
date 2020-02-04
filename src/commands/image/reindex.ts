@@ -4,6 +4,7 @@ import * as diff from 'diff'
 import { Change } from 'diff'
 
 import ApiCommand from '../../base-commands/api'
+import ServiceDiscovery from '../../lib/service-discovery'
 
 export default class ImageReingest extends ApiCommand {
   static description = 'Reindex an image already present in the images bucket'
@@ -23,26 +24,26 @@ export default class ImageReingest extends ApiCommand {
     })
   }
 
-  static args = [
-    { name: 'id', description: 'ID of image', required: true },
-    {
-      name: 'adminToolsHost',
-      description: 'The root for the Admin Tools service',
-      required: true
-    }
-  ]
+  static args = [{ name: 'id', description: 'ID of image', required: true }]
 
   async run() {
     const { args, flags } = this.parse(ImageReingest)
 
     const imageId: string = args.id
-    const adminToolsHost: string = args.adminToolsHost
 
     const http = this.http!
+    const profile = this.profile!
     const dryRun = flags.dryRun
     const compare = flags.compare
 
-    const endpoint = `${adminToolsHost}images/${imageId}/project`
+    const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
+    const adminTools = serviceDiscovery.getLink('admin-tools')
+
+    if (!adminTools) {
+      this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, { exit: 1 })
+    }
+
+    const endpoint = `${adminTools.href}/images/projection/${imageId}`
     const url = new URL(endpoint)
     const projection: object = await http.get(url).then(_ => _.json())
 
@@ -59,7 +60,7 @@ export default class ImageReingest extends ApiCommand {
     diffAgainstES: boolean
   ) {
     if (diffAgainstES) {
-      const image = await this.fetchImage(id, 'raw')
+      const image = await this.fetchImage(id, '_elasticsearch')
       const imageDiff = diff.diffJson(image.data || {}, projection)
       imageDiff
         .map(this.changeToConsoleString)
