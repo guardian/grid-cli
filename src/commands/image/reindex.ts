@@ -63,14 +63,14 @@ export default class ImageReingest extends ApiCommand {
       const imageDiff = diff.diffJson(image.data || {}, projection)
       imageDiff
         .map(this.changeToConsoleString)
-        .map(_ => console.log(_))
+        .map(_ => this.log(_))
     } else {
-      console.log(projection)
+      this.log(JSON.stringify(projection, null, 2))
     }
   }
 
   private addProjectionToKinesis(projection: unknown) {
-    console.log('Not yet implemented')
+    this.log('Not yet implemented')
   }
 
   private changeToConsoleString(change: diff.Change) {
