@@ -1,4 +1,5 @@
 import {flags} from '@oclif/command'
+import * as AWS from 'aws-sdk'
 import * as colors from 'colors/safe'
 import * as diff from 'diff'
 
@@ -23,17 +24,29 @@ export default class ImageReingest extends ApiCommand {
     })
   }
 
-  static args = [{name: 'id', description: 'ID of image', required: true}]
+  static args = [{
+    name: 'id',
+    description: 'ID of image',
+    required: true,
+  }, {
+    name: 'streamName',
+    description: 'The name of the Kinesis stream to receive the reindex message'
+  }]
 
   async run() {
     const {args, flags} = this.parse(ImageReingest)
 
     const imageId: string = args.id
+    const streamName: string = args.streamName
 
     const http = this.http!
     const profile = this.profile!
     const dryRun = flags.dryRun
     const compare = flags.compare
+
+    if (!dryRun && !compare && !streamName) {
+      this.error('To reindex an image, please provide a stream name', {exit: 1})
+    }
 
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const adminTools = serviceDiscovery.getLink('admin-tools')
@@ -44,13 +57,13 @@ export default class ImageReingest extends ApiCommand {
 
     const endpoint = `${adminTools!.href}/images/projection/${imageId}`
     const url = new URL(endpoint)
-    const projection: object = await http.get(url).then(_ => _.json())
+    const imageToReindex: object = await http.get(url).then(_ => _.json())
 
     if (dryRun || compare) {
-      return this.printProjection(imageId, projection, !!compare)
+      return this.printProjection(imageId, imageToReindex, !!compare)
     }
 
-    return this.addProjectionToKinesis(projection)
+    return this.addReindexCommandToKinesis(imageId, imageToReindex, streamName)
   }
 
   private async printProjection(
@@ -69,8 +82,24 @@ export default class ImageReingest extends ApiCommand {
     }
   }
 
-  private addProjectionToKinesis(projection: unknown) {
-    this.log('Not yet implemented')
+  private async addReindexCommandToKinesis(id: string, image: unknown, StreamName: string) {
+    const kinesis = new AWS.Kinesis({apiVersion: '2013-12-02'})
+    const record = {
+      subject: 'reindex-image',
+      id,
+      image
+    }
+    const params = {
+      Data: JSON.stringify(record),
+      StreamName,
+      PartitionKey: 'example'
+    }
+    try {
+      await kinesis.putRecord(params).promise()
+    } catch (e) {
+      this.error(`Unable to reindex image with id ${id} – ${e.message}`)
+    }
+    this.log(`Successfully reindexed image with id ${id}`)
   }
 
   private changeToConsoleString(change: diff.Change) {
