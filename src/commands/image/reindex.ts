@@ -1,5 +1,4 @@
 import {flags} from '@oclif/command'
-import * as AWS from 'aws-sdk'
 import * as colors from 'colors/safe'
 import * as diff from 'diff'
 
@@ -28,25 +27,17 @@ export default class ImageReingest extends ApiCommand {
     name: 'id',
     description: 'ID of image',
     required: true,
-  }, {
-    name: 'streamName',
-    description: 'The name of the Kinesis stream to receive the reindex message'
   }]
 
   async run() {
     const {args, flags} = this.parse(ImageReingest)
 
     const imageId: string = args.id
-    const streamName: string = args.streamName
 
     const http = this.http!
     const profile = this.profile!
     const dryRun = flags.dryRun
     const compare = flags.compare
-
-    if (!dryRun && !compare && !streamName) {
-      this.error('To reindex an image, please provide a stream name', {exit: 1})
-    }
 
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const adminTools = serviceDiscovery.getLink('admin-tools')
@@ -55,15 +46,12 @@ export default class ImageReingest extends ApiCommand {
       this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, {exit: 1})
     }
 
-    const endpoint = `${adminTools!.href}/images/projection/${imageId}`
-    const url = new URL(endpoint)
-    const imageToReindex: object = await http.get(url).then(_ => _.json())
-
     if (dryRun || compare) {
+      const imageToReindex = await this.fetchProjection(imageId, adminTools.href)
       return this.printProjection(imageId, imageToReindex, !!compare)
     }
 
-    return this.addReindexCommandToKinesis(imageId, imageToReindex, streamName)
+    return this.reindexImage(imageId, adminTools.href)
   }
 
   private async printProjection(
@@ -82,24 +70,25 @@ export default class ImageReingest extends ApiCommand {
     }
   }
 
-  private async addReindexCommandToKinesis(id: string, image: unknown, StreamName: string) {
-    const kinesis = new AWS.Kinesis({apiVersion: '2013-12-02'})
-    const record = {
-      subject: 'reindex-image',
-      id,
-      image
-    }
-    const params = {
-      Data: JSON.stringify(record),
-      StreamName,
-      PartitionKey: 'example'
-    }
-    try {
-      await kinesis.putRecord(params).promise()
-    } catch (e) {
-      this.error(`Unable to reindex image with id ${id} – ${e.message}`)
-    }
-    this.log(`Successfully reindexed image with id ${id}`)
+  private async fetchProjection(id: string, adminToolsEndpoint: URL) {
+    const endpoint = `${adminToolsEndpoint}/images/projection/${id}`
+    const url = new URL(endpoint)
+    return this.http!.get(url).then(res => {
+      if (res.status !== 200) {
+        this.error(`Could not fetch projection – admin-tools returned ${res.status}: ${res.statusText}`, {exit: 1})
+      }
+      return res.json()
+    })
+  }
+
+  private async reindexImage(id: string, adminToolsEndpoint: URL) {
+    const endpoint = `${adminToolsEndpoint}/images/reindex/${id}`
+    const url = new URL(endpoint)
+    return this.http!.post(url).then(res => {
+      if (!(res.status >= 200 && res.status <= 299)) {
+        this.error(`Could not reindex image – admin-tools returned ${res.status}: ${res.statusText}`, {exit: 1})
+      }
+    })
   }
 
   private changeToConsoleString(change: diff.Change) {

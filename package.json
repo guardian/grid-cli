@@ -15,7 +15,6 @@
     "@oclif/plugin-warn-if-update-available": "^1.7.0",
     "@types/aws-sdk": "^2.7.0",
     "@types/diff": "^4.0.2",
-    "aws-sdk": "^2.612.0",
     "cli-ux": "^5.3.2",
     "colors": "^1.4.0",
     "diff": "^4.0.2",
