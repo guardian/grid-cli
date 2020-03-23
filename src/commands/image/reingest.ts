@@ -15,6 +15,16 @@ export default class ImageReingest extends ApiCommand {
       name: 'dry-run',
       description: 'Display the result of the reingestion only',
       char: 'd'
+    }),
+    compare: flags.boolean({
+      name: 'compare',
+      description: 'Do a dry run, and display the difference between the result and the data returned for this image from media-api',
+      char: 'c'
+    }),
+    force: flags.boolean({
+      name: 'force',
+      description: 'Force reingestion if the image is already present in the Grid',
+      char: 'f'
     })
   }
 
@@ -32,6 +42,8 @@ export default class ImageReingest extends ApiCommand {
     const http = this.http!
     const profile = this.profile!
     const dryRun = flags.dryRun
+    const compare = flags.compare
+    const force = !!flags.force
 
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const adminTools = serviceDiscovery.getLink('admin-tools')
@@ -40,27 +52,45 @@ export default class ImageReingest extends ApiCommand {
       this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, {exit: 1})
     }
 
-    const image = await this.fetchImage(imageId)
+    const imageResponse = await this.fetchImage(imageId)
 
-    if (image && !image.errorMessage) {
-      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid.`)
+    if (this.imageExists(imageResponse) && !force) {
+      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid. Add --force to overwrite it.`)
     }
 
     const imageToReingest = await this.fetchProjection(imageId, adminTools.href, !dryRun)
 
-    if (dryRun) {
-      this.printProjection(imageToReingest)
+    if (dryRun || compare) {
+      this.printProjection(imageToReingest, !!compare)
     } else {
-      this.log(`Reingestion for image with id ${imageId} sent to queue`)
+      this.log(`Reingestion for image with id ${imageId} sent to queue.\n`)
+      try {
+        await this.pollForImage(imageId)
+        this.log('\nImage successfully reingested.')
+      } catch (e) {
+        this.error(e.message)
+      }
     }
   }
 
-  private async printProjection(projection: object) {
-    this.log(JSON.stringify(projection, null, 2))
+  private async printProjection(
+    projection: any,
+    diffAgainstES: boolean
+  ) {
+    if (diffAgainstES) {
+      const image = await this.fetchImage(projection.id, '_elasticsearch')
+      const imageDiff = diff.diffJson(image.data || {}, projection)
+      imageDiff
+        .map(this.changeToConsoleString)
+        .map(_ => this.log(_))
+    } else {
+      this.log(JSON.stringify(projection, null, 2))
+    }
   }
 
+
   private async fetchProjection(id: string, adminToolsEndpoint: URL, reingest = true) {
-    let endpoint = `https://42na3il8vh.execute-api.eu-west-1.amazonaws.com/test/images/projection/${id}`
+    let endpoint = `${adminToolsEndpoint}/${id}`
     if (reingest) {
       endpoint += '?reingest=true'
     }
@@ -71,5 +101,32 @@ export default class ImageReingest extends ApiCommand {
       }
       return res.json()
     })
+  }
+
+  private async pollForImage(id: string, maxIterations = 5, delayBetweenRequestsInMs = 2000) {
+    let currentIteration = 0
+    process.stdout.write('Polling to check that image has been reingested successfully')
+    while (currentIteration < maxIterations) {
+      const imageResponse = await this.fetchImage(id)
+      process.stdout.write('.')
+      if (this.imageExists(imageResponse)) {
+        return
+      }
+      await this.wait(delayBetweenRequestsInMs)
+      currentIteration++
+    }
+    this.log('\n')
+    throw new Error(`Timed out trying to find image – tried ${maxIterations} times over ${maxIterations * delayBetweenRequestsInMs / 1000} seconds`)
+  }
+
+  private readonly wait = (delayInMs: number) => new Promise(resolve => setTimeout(resolve, delayInMs))
+
+  private imageExists(imageResponse: any) {
+    return imageResponse && !imageResponse.errorMessage
+  }
+
+  private changeToConsoleString(change: diff.Change) {
+    const color = change.added ? 'green' : change.removed ? 'red' : 'grey'
+    return colors[color](change.value)
   }
 }
