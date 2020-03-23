@@ -55,13 +55,13 @@ export default class ImageReingest extends ApiCommand {
     const imageResponse = await this.fetchImage(imageId)
 
     if (this.imageExists(imageResponse) && !force) {
-      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid. Add --force to overwrite it.`)
+      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid. Add --force to overwrite it.`, {exit: 1})
     }
 
     const imageToReingest = await this.fetchProjection(imageId, adminTools.href, !dryRun)
 
     if (dryRun || compare) {
-      this.printProjection(imageToReingest, !!compare)
+      await this.printProjection(imageToReingest, !!compare)
     } else {
       this.log(`Reingestion for image with id ${imageId} sent to queue.\n`)
       try {
