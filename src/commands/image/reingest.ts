@@ -88,13 +88,11 @@ export default class ImageReingest extends ApiCommand {
     }
   }
 
-
   private async fetchProjection(id: string, adminToolsEndpoint: URL, reingest = true) {
-    let endpoint = `${adminToolsEndpoint}/${id}`
+    const url = new URL(`${adminToolsEndpoint}/images/projection/${id}`)
     if (reingest) {
-      endpoint += '?reingest=true'
+      url.searchParams.append('reingest', 'true')
     }
-    const url = new URL(endpoint)
     return this.http!.get(url).then(res => {
       if (res.status !== 200) {
         this.error(`Could not fetch projection – admin-tools returned ${res.status}: ${res.statusText}`, {exit: 1})
