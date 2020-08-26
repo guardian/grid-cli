@@ -47,15 +47,16 @@ export default class CollectionMoveImages extends HttpCommand {
     this.log(`Getting images in collection: ${this.getCollectionPathStr(collectionFrom)}`)
 
     // Fetch the images in the current collection.
+    const pageSize = 30
     let images = [] as any
-    let pageNo = 0
+    let offset = 0
     let totalImages = 0
 
-    while (pageNo === 0 || images.length < totalImages) {
-      const results = await this.fetchImagesForCollection(collectionFrom, pageNo)
+    while (offset === 0 || images.length < totalImages) {
+      const results = await this.fetchImagesForCollection(collectionFrom, pageSize, offset)
       totalImages = results.total
       images = images.concat(results.data)
-      pageNo++
+      offset += pageSize
       this.log(`Fetched ${images.length} of ${totalImages} images`)
     }
 
@@ -85,9 +86,10 @@ export default class CollectionMoveImages extends HttpCommand {
     this.log(`All images have been moved from collection: ${this.getCollectionPathStr(collectionFrom)} to collection: ${this.getCollectionPathStr(collectionTo)}`)
   }
 
-  private readonly fetchImagesForCollection = (collection: any, pageNo: number) => {
+  private readonly fetchImagesForCollection = (collection: any, pageSize: number, offset: number) => {
     const searchParams = new URLSearchParams()
-    searchParams.append('page', pageNo.toString())
+    searchParams.append('length', pageSize.toString())
+    searchParams.append('offset', offset.toString())
     searchParams.append('q', `~"${this.getCollectionPathStr(collection)}"`)
     const url = new URL(`${this.profile!.mediaApiHost}images?${searchParams.toString()}`)
     return this.http!.get(url).then(_ => _.json())
