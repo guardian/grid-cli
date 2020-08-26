@@ -34,14 +34,16 @@ export default class CollectionMoveImages extends HttpCommand {
     // as the search for collections is case-insensitive, and we might end up adding
     // images to collections that don't exist.
     const collections = await this.fetchCollections(collectionsRoot)
-    if (!collections.data.children.find((collection: any) => collection.data.basename === args.from)) {
-      this.error(`Collection with basename ${args.from} not found.`)
+    const collectionFrom = collections.data.children.find((collection: any) => collection.data.basename === args.from)?.data
+    const collectionTo = collections.data.children.find((collection: any) => collection.data.basename === args.to)?.data
+    if (!collectionFrom) {
+      this.error(`Collection with basename ${collectionFrom.baseName} not found.`)
     }
-    if (!collections.data.children.find((collection: any) => collection.data.basename === args.to)) {
-      this.error(`Collection with basename ${args.to} not found.`)
+    if (!collectionTo) {
+      this.error(`Collection with basename ${collectionTo.baseName} not found.`)
     }
 
-    this.log(`Getting images in collection: ${args.from}`)
+    this.log(`Getting images in collection: ${collectionFrom.baseName}`)
 
     // Fetch the images in the current collection.
     let images = [] as any
@@ -49,7 +51,7 @@ export default class CollectionMoveImages extends HttpCommand {
     let totalImages = 0
 
     while (pageNo === 0 || images.length < totalImages) {
-      const results = await this.fetchImagesForCollection(args.from, pageNo)
+      const results = await this.fetchImagesForCollection(collectionFrom, pageNo)
       totalImages = results.total
       images = images.concat(results.data)
       pageNo++
@@ -57,35 +59,35 @@ export default class CollectionMoveImages extends HttpCommand {
     }
 
     if (!images.length) {
-      this.log(`No images found for collection: ${args.from}, stopping.`)
+      this.log(`No images found for collection: ${collectionFrom}, stopping.`)
       return
     }
 
     // Add those images to the new collection
     for (const [index, image] of images.entries()) {
-      this.log(`Adding image with id ${image.data.id} to collection: ${args.to} (${index + 1} of ${images.length})`)
-      const response: any = await this.addImageToCollection(collectionsRoot, args.to, image.data.id)
+      this.log(`Adding image with id ${image.data.id} to collection: ${collectionTo.baseName} (${index + 1} of ${images.length})`)
+      const response: any = await this.addImageToCollection(collectionsRoot, collectionTo, image.data.id)
       if (response.errorKey) {
-        this.error(`Error adding image ${image.data.id} to collection: ${args.to} – response from API was ${response.errorMessage}`)
+        this.error(`Error adding image ${image.data.id} to collection: ${collectionTo.baseName} – response from API was ${response.errorMessage}`)
       }
     }
 
     // Remove those images from the old collection
     for (const [index, image] of images.entries()) {
-      this.log(`Removing image with id ${image.data.id} from collection: ${args.from} (${index + 1} of ${images.length})`)
-      const response: any = await this.removeImageFromCollection(collectionsRoot, args.from, image.data.id)
+      this.log(`Removing image with id ${image.data.id} from collection: ${collectionFrom.baseName} (${index + 1} of ${images.length})`)
+      const response: any = await this.removeImageFromCollection(collectionsRoot, collectionFrom, image.data.id)
       if (response.errorKey) {
-        this.error(`Error removing image ${image.data.id} from collection: ${args.from} – response from API was ${response.errorMessage}`)
+        this.error(`Error removing image ${image.data.id} from collection: ${collectionFrom.baseName} – response from API was ${response.errorMessage}`)
       }
     }
 
-    this.log(`All images have been moved from collection: ${args.from} to collection: ${args.to}`)
+    this.log(`All images have been moved from collection: ${collectionFrom.baseName} to collection: ${collectionTo.baseName}`)
   }
 
-  private readonly fetchImagesForCollection = (collectionName: string, pageNo: number) => {
+  private readonly fetchImagesForCollection = (collection: any, pageNo: number) => {
     const searchParams = new URLSearchParams()
     searchParams.append('page', pageNo.toString())
-    searchParams.append('q', `~${collectionName}`)
+    searchParams.append('q', `~${this.getCollectionPathStr(collection)}`)
     const url = new URL(`${this.profile!.mediaApiHost}images?${searchParams.toString()}`)
     return this.http!.get(url).then(_ => _.json())
   }
@@ -95,13 +97,15 @@ export default class CollectionMoveImages extends HttpCommand {
     return this.http!.get(url).then(_ => _.json())
   }
 
-  private readonly addImageToCollection = (collectionsRoot: Service, collectionName: string, imageId: string) => {
+  private readonly addImageToCollection = (collectionsRoot: Service, collection: any, imageId: string) => {
     const url = new URL(`${collectionsRoot.href.toString()}/images/${imageId}`)
-    return this.http!.post(url, JSON.stringify({data: [collectionName]})).then(_ => _.json())
+    return this.http!.post(url, JSON.stringify({data: collection.data.data.path})).then(_ => _.json())
   }
 
-  private readonly removeImageFromCollection = (collectionsRoot: Service, collectionName: string, imageId: string) => {
-    const url = new URL(`${collectionsRoot.href.toString()}/images/${imageId}/${collectionName}`)
+  private readonly removeImageFromCollection = (collectionsRoot: Service, collection: any, imageId: string) => {
+    const url = new URL(`${collectionsRoot.href.toString()}/images/${imageId}/${this.getCollectionPathStr(collection)}`)
     return this.http!.delete(url).then(_ => _.json())
   }
+
+  private readonly getCollectionPathStr = (collection: any) => collection.data.data.path.join('/')
 }
