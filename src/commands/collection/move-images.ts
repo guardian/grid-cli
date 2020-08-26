@@ -34,16 +34,17 @@ export default class CollectionMoveImages extends HttpCommand {
     // as the search for collections is case-insensitive, and we might end up adding
     // images to collections that don't exist.
     const collections = await this.fetchCollections(collectionsRoot)
-    const collectionFrom = collections.data.children.find((collection: any) => collection.data.basename === args.from)?.data
-    const collectionTo = collections.data.children.find((collection: any) => collection.data.basename === args.to)?.data
+    const flattenedCollections = this.flattenCollections(collections.data)
+    const collectionFrom = flattenedCollections.find((collection: any) => this.getCollectionPathStr(collection.data) === args.from)?.data
+    const collectionTo = flattenedCollections.find((collection: any) => this.getCollectionPathStr(collection.data) === args.to)?.data
     if (!collectionFrom) {
-      this.error(`Collection with basename ${collectionFrom.baseName} not found.`)
+      this.error(`Collection with path ${args.from} not found.`)
     }
     if (!collectionTo) {
-      this.error(`Collection with basename ${collectionTo.baseName} not found.`)
+      this.error(`Collection with path ${args.to} not found.`)
     }
 
-    this.log(`Getting images in collection: ${collectionFrom.baseName}`)
+    this.log(`Getting images in collection: ${this.getCollectionPathStr(collectionFrom)}`)
 
     // Fetch the images in the current collection.
     let images = [] as any
@@ -59,35 +60,35 @@ export default class CollectionMoveImages extends HttpCommand {
     }
 
     if (!images.length) {
-      this.log(`No images found for collection: ${collectionFrom}, stopping.`)
+      this.log(`No images found for collection: ${this.getCollectionPathStr(collectionFrom)}, stopping.`)
       return
     }
 
     // Add those images to the new collection
     for (const [index, image] of images.entries()) {
-      this.log(`Adding image with id ${image.data.id} to collection: ${collectionTo.baseName} (${index + 1} of ${images.length})`)
+      this.log(`Adding image with id ${image.data.id} to collection: ${this.getCollectionPathStr(collectionTo)} (${index + 1} of ${images.length})`)
       const response: any = await this.addImageToCollection(collectionsRoot, collectionTo, image.data.id)
       if (response.errorKey) {
-        this.error(`Error adding image ${image.data.id} to collection: ${collectionTo.baseName} – response from API was ${response.errorMessage}`)
+        this.error(`Error adding image ${image.data.id} to collection: ${this.getCollectionPathStr(collectionTo)} – response from API was ${response.errorMessage}`)
       }
     }
 
     // Remove those images from the old collection
     for (const [index, image] of images.entries()) {
-      this.log(`Removing image with id ${image.data.id} from collection: ${collectionFrom.baseName} (${index + 1} of ${images.length})`)
+      this.log(`Removing image with id ${image.data.id} from collection: ${this.getCollectionPathStr(collectionFrom)} (${index + 1} of ${images.length})`)
       const response: any = await this.removeImageFromCollection(collectionsRoot, collectionFrom, image.data.id)
       if (response.errorKey) {
-        this.error(`Error removing image ${image.data.id} from collection: ${collectionFrom.baseName} – response from API was ${response.errorMessage}`)
+        this.error(`Error removing image ${image.data.id} from collection: ${this.getCollectionPathStr(collectionFrom)} – response from API was ${response.errorMessage}`)
       }
     }
 
-    this.log(`All images have been moved from collection: ${collectionFrom.baseName} to collection: ${collectionTo.baseName}`)
+    this.log(`All images have been moved from collection: ${this.getCollectionPathStr(collectionFrom)} to collection: ${this.getCollectionPathStr(collectionTo)}`)
   }
 
   private readonly fetchImagesForCollection = (collection: any, pageNo: number) => {
     const searchParams = new URLSearchParams()
     searchParams.append('page', pageNo.toString())
-    searchParams.append('q', `~${this.getCollectionPathStr(collection)}`)
+    searchParams.append('q', `~"${this.getCollectionPathStr(collection)}"`)
     const url = new URL(`${this.profile!.mediaApiHost}images?${searchParams.toString()}`)
     return this.http!.get(url).then(_ => _.json())
   }
@@ -99,7 +100,7 @@ export default class CollectionMoveImages extends HttpCommand {
 
   private readonly addImageToCollection = (collectionsRoot: Service, collection: any, imageId: string) => {
     const url = new URL(`${collectionsRoot.href.toString()}/images/${imageId}`)
-    return this.http!.post(url, JSON.stringify({data: collection.data.data.path})).then(_ => _.json())
+    return this.http!.post(url, JSON.stringify({data: collection.fullPath})).then(_ => _.json())
   }
 
   private readonly removeImageFromCollection = (collectionsRoot: Service, collection: any, imageId: string) => {
@@ -107,5 +108,8 @@ export default class CollectionMoveImages extends HttpCommand {
     return this.http!.delete(url).then(_ => _.json())
   }
 
-  private readonly getCollectionPathStr = (collection: any) => collection.data.data.path.join('/')
+  private readonly getCollectionPathStr = (collection: any) => collection.fullPath.join('/')
+
+  private readonly flattenCollections = (collections: any) => collections.children.reduce((acc: any[], collection: any) =>
+    acc.concat([collection, ...this.flattenCollections(collection.data)]), [])
 }
