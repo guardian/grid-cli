@@ -31,7 +31,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.1.0 darwin-x64 node-v12.13.1
+@guardian/grid-cli/1.1.0 darwin-x64 node-v12.9.1
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -45,14 +45,16 @@ There are a few handy scripts in the [./script](script) directory. Hopefully the
 # Commands
 <!-- commands -->
 * [`grid autocomplete [SHELL]`](#grid-autocomplete-shell)
+* [`grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`](#grid-bulkrights-input-rights-output-failures)
 * [`grid collection:add-root NAME`](#grid-collectionadd-root-name)
+* [`grid collection:move-images FROM TO`](#grid-collectionmove-images-from-to)
 * [`grid configuration:add`](#grid-configurationadd)
 * [`grid configuration:read`](#grid-configurationread)
 * [`grid help [COMMAND]`](#grid-help-command)
 * [`grid image:delete ID`](#grid-imagedelete-id)
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get [ID]`](#grid-imageget-id)
-* [`grid image:reindex ID`](#grid-imagereindex-id)
+* [`grid image:reingest ID`](#grid-imagereingest-id)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -81,6 +83,27 @@ EXAMPLES
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.3/src/commands/autocomplete/index.ts)_
 
+## `grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`
+
+Reads a text file containing image ids, and sets their usage rights.
+
+```
+USAGE
+  $ grid bulk:rights INPUT RIGHTS OUTPUT FAILURES
+
+ARGUMENTS
+  INPUT     file to read
+  RIGHTS    (noRights|chargeable) usageRights to set
+  OUTPUT    file to output results to
+  FAILURES  file to write bad ids to
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/bulk/rights.ts)_
+
 ## `grid collection:add-root NAME`
 
 Add a root collection
@@ -98,6 +121,25 @@ OPTIONS
 ```
 
 _See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/collection/add-root.ts)_
+
+## `grid collection:move-images FROM TO`
+
+Move images from one collection to another
+
+```
+USAGE
+  $ grid collection:move-images FROM TO
+
+ARGUMENTS
+  FROM  Collection to rename
+  TO    Name of new collection
+
+OPTIONS
+  -h, --help             show CLI help
+  -p, --profile=profile  [default: default] Profile name
+```
+
+_See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/collection/move-images.ts)_
 
 ## `grid configuration:add`
 
@@ -204,13 +246,13 @@ OPTIONS
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/get.ts)_
 
-## `grid image:reindex ID`
+## `grid image:reingest ID`
 
-Reindex an image already present in the images bucket
+Reingest an image already present in the images bucket
 
 ```
 USAGE
-  $ grid image:reindex ID
+  $ grid image:reingest ID
 
 ARGUMENTS
   ID  ID of image
@@ -221,12 +263,14 @@ OPTIONS
 
   -d, --dryRun           Display the result of the reingestion only
 
+  -f, --force            Force reingestion if the image is already present in the Grid
+
   -h, --help             show CLI help
 
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/reindex.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/reindex.ts)_
+_See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/reingest.ts)_
 
 ## `grid image:upload IMAGE`
 
