@@ -92,7 +92,7 @@ USAGE
   $ grid bulk:rights INPUT RIGHTS OUTPUT FAILURES
 
 ARGUMENTS
-  INPUT     file to read
+  INPUT     file to read, containing one grid id per line
   RIGHTS    (noRights|chargeable) usageRights to set
   OUTPUT    file to output results to
   FAILURES  file to write bad ids to

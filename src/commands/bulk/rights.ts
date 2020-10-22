@@ -25,7 +25,7 @@ export default class BulkRights extends ApiCommand {
   }
 
   static args = [
-    {name: 'input', description: 'file to read', required: true},
+    {name: 'input', description: 'file to read, containing one grid id per line', required: true},
     {
       name: 'rights',
       description: 'usageRights to set',
