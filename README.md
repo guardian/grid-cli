@@ -40,7 +40,11 @@ USAGE
 <!-- usagestop -->
 # Developing
 <!-- developing -->
-There are a few handy scripts in the [./script](script) directory. Hopefully they are self documenting...
+There are a few handy scripts in the [./script](script) directory. 
+* `new-command.sh` which creates new commands, `./scripts/new-command.sh a/b` to create `a:b`
+* `update-readme.sh` which you should run before committing. 
+
+To run the development build of the script, you can run `npm run local`.
 <!-- developingstop -->
 # Commands
 <!-- commands -->
