@@ -20,8 +20,6 @@ export default class BulkRights extends ApiCommand {
   static flags = {
     ...ApiCommand.flags,
     help: flags.help({char: 'h'}),
-
-    // output: flags.string()
   }
 
   static args = [
