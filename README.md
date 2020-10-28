@@ -31,7 +31,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.1.0 darwin-x64 node-v12.9.1
+@guardian/grid-cli/1.2.0 darwin-x64 node-v12.9.1
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -106,7 +106,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/bulk/rights.ts)_
+_See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/bulk/rights.ts)_
 
 ## `grid collection:add-root NAME`
 
@@ -124,7 +124,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/collection/add-root.ts)_
+_See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/collection/add-root.ts)_
 
 ## `grid collection:move-images FROM TO`
 
@@ -143,7 +143,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/collection/move-images.ts)_
+_See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/collection/move-images.ts)_
 
 ## `grid configuration:add`
 
@@ -160,7 +160,7 @@ OPTIONS
   -p, --profile=profile            [default: default] Profile name
 ```
 
-_See code: [src/commands/configuration/add.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/configuration/add.ts)_
+_See code: [src/commands/configuration/add.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/configuration/add.ts)_
 
 ## `grid configuration:read`
 
@@ -176,7 +176,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/configuration/read.ts)_
+_See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/configuration/read.ts)_
 
 ## `grid help [COMMAND]`
 
@@ -211,7 +211,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/delete.ts)_
+_See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/delete.ts)_
 
 ## `grid image:download ID`
 
@@ -230,7 +230,7 @@ OPTIONS
   -p, --profile=profile      [default: default] Profile name
 ```
 
-_See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/download.ts)_
+_See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/download.ts)_
 
 ## `grid image:get [ID]`
 
@@ -248,7 +248,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/get.ts)_
+_See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/get.ts)_
 
 ## `grid image:reingest ID`
 
@@ -274,7 +274,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/reingest.ts)_
+_See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/reingest.ts)_
 
 ## `grid image:upload IMAGE`
 
@@ -292,7 +292,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/upload.ts)_
+_See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/upload.ts)_
 
 ## `grid image:visit ID`
 
@@ -310,7 +310,7 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 ```
 
-_See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/image/visit.ts)_
+_See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/visit.ts)_
 
 ## `grid util:curl URL`
 
@@ -330,7 +330,7 @@ OPTIONS
   -x, --method=GET|POST|PUT|PATCH|DELETE  [default: GET] The HTTP verb to use
 ```
 
-_See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/util/curl.ts)_
+_See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/util/curl.ts)_
 
 ## `grid util:id-file FILE`
 
@@ -347,5 +347,5 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.1.0/src/commands/util/id-file.ts)_
+_See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/util/id-file.ts)_
 <!-- commandsstop -->
