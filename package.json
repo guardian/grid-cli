@@ -59,7 +59,7 @@
   },
   "repository": "guardian/grid-cli",
   "scripts": {
-    "local":"./bin/run",
+    "local": "./bin/run",
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "tslint -p . -t stylish",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
