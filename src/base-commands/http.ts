@@ -18,7 +18,7 @@ export default abstract class HttpCommand extends ProfileCommand {
 
   async init() {
     // @ts-ignore
-    const {flags} = this.parse(this.constructor)
+    const {flags} = this.parse(this.constructor) as any
 
     const configuration = new Configuration()
     const profile = configuration.getProfile(flags.profile)
