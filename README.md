@@ -59,6 +59,7 @@ To run the development build of the script, you can run `npm run local`.
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get [ID]`](#grid-imageget-id)
 * [`grid image:reingest ID`](#grid-imagereingest-id)
+* [`grid image:search [FILE]`](#grid-imagesearch-file)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -275,6 +276,22 @@ OPTIONS
 ```
 
 _See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/reingest.ts)_
+
+## `grid image:search [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ grid image:search [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/image/search.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/search.ts)_
 
 ## `grid image:upload IMAGE`
 

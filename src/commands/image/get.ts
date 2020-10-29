@@ -20,6 +20,6 @@ export default class ImageGet extends ApiCommand {
     const id = args.id
 
     const image = await this.fetchImage(id)
-    this.log(JSON.stringify(image))
+    this.log(JSON.stringify(image, null, 2))
   }
 }

@@ -19,13 +19,17 @@
     "colors": "^1.4.0",
     "diff": "^4.0.2",
     "lines-async-iterator": "^0.9.0",
+    "lodash": "^4.17.20",
     "node-fetch": "^2.6.0",
     "open": "^6.4.0",
+    "terminal-image": "^1.2.1",
+    "terminal-link": "^2.1.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
     "@oclif/tslint": "^3.1.1",
+    "@types/lodash": "^4.14.163",
     "@types/node": "^10.14.17",
     "@types/node-fetch": "^2.5.0",
     "globby": "^10.0.1",
