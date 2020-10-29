@@ -15,11 +15,10 @@ export default class ImageGet extends ApiCommand {
   ]
 
   async run() {
-    const {args} = this.parse(ImageGet)
+    const {args:{id},flags:{field,thumbnail}} = this.parse(ImageGet)
 
-    const id = args.id
 
     const image = await this.fetchImage(id)
-    this.log(JSON.stringify(image, null, 2))
+    await this.printImages([image],field,thumbnail)
   }
 }
