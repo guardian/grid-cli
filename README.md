@@ -59,6 +59,7 @@ To run the development build of the script, you can run `npm run local`.
 * [`grid image:download ID`](#grid-imagedownload-id)
 * [`grid image:get [ID]`](#grid-imageget-id)
 * [`grid image:reingest ID`](#grid-imagereingest-id)
+* [`grid image:search [Q]`](#grid-imagesearch-q)
 * [`grid image:upload IMAGE`](#grid-imageupload-image)
 * [`grid image:visit ID`](#grid-imagevisit-id)
 * [`grid util:curl URL`](#grid-utilcurl-url)
@@ -102,8 +103,14 @@ ARGUMENTS
   FAILURES  file to write bad ids to
 
 OPTIONS
+  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
+                         json
+
   -h, --help             show CLI help
+
   -p, --profile=profile  [default: default] Profile name
+
+  -t, --thumbnail        show a thumbnail
 ```
 
 _See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/bulk/rights.ts)_
@@ -244,8 +251,14 @@ ARGUMENTS
   ID  ID of image
 
 OPTIONS
+  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
+                         json
+
   -h, --help             show CLI help
+
   -p, --profile=profile  [default: default] Profile name
+
+  -t, --thumbnail        show a thumbnail
 ```
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/get.ts)_
@@ -267,14 +280,43 @@ OPTIONS
 
   -d, --dryRun           Display the result of the reingestion only
 
+  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
+                         json
+
   -f, --force            Force reingestion if the image is already present in the Grid
 
   -h, --help             show CLI help
 
   -p, --profile=profile  [default: default] Profile name
+
+  -t, --thumbnail        show a thumbnail
 ```
 
 _See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/reingest.ts)_
+
+## `grid image:search [Q]`
+
+Search for an Image from the API
+
+```
+USAGE
+  $ grid image:search [Q]
+
+ARGUMENTS
+  Q  Search query
+
+OPTIONS
+  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
+                         json
+
+  -h, --help             show CLI help
+
+  -p, --profile=profile  [default: default] Profile name
+
+  -t, --thumbnail        show a thumbnail
+```
+
+_See code: [src/commands/image/search.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/search.ts)_
 
 ## `grid image:upload IMAGE`
 
