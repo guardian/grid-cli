@@ -31,7 +31,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.2.0 darwin-x64 node-v12.9.1
+@guardian/grid-cli/1.2.0 darwin-x64 node-v15.3.0
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -259,6 +259,8 @@ OPTIONS
   -p, --profile=profile  [default: default] Profile name
 
   -t, --thumbnail        show a thumbnail
+
+  --hydrate              Gets fields which are returned as uri's.
 ```
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.2.0/src/commands/image/get.ts)_
