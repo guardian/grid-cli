@@ -18,13 +18,18 @@ export default class ImageGet extends ApiCommand {
   ]
 
   async run() {
-    const {args:{id},flags:{field,thumbnail}} = this.parse(ImageGet)
+    const {args:{id},flags:{field,thumbnail, hydrate}} = this.parse(ImageGet)
 
 
     const image = await this.fetchImage(id)
-    const hydrated = await this.hydrate(image)
 
-    await this.printImages([hydrated],field,thumbnail)
+    if (!hydrate) {
+      await this.printImages([image],field,thumbnail)
+return
+    }
+    const data = await this.hydrate(image.data)
+    await this.printImages([{...image,data}],field,thumbnail)
+
   }
 
   async hydrate(image: any) {
@@ -40,7 +45,7 @@ export default class ImageGet extends ApiCommand {
         const { uri } = value as { uri: string }
         const response = await this.http!.get(new URL(uri))
         const {data} = await response.json()
-        return [key, data]
+        return [key, { ...value, data }]
       } catch (e) {
         return [key, value]
       }
