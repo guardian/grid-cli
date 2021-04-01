@@ -1,10 +1,10 @@
 {
   "name": "@guardian/grid-cli",
   "description": "Helpful commands for interacting with Grid, The Guardian's image management tool.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": "The Guardian",
   "bin": {
-    "grid": "./bin/run"
+    "grid": "bin/run"
   },
   "bugs": "https://github.com/guardian/grid-cli/issues",
   "dependencies": {
