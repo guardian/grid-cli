@@ -9,7 +9,7 @@ export default class ImageGet extends ApiCommand {
     ...ApiCommand.flags,
     help: flags.help({ char: 'h' }),
     hydrate: flags.boolean({
-      description: "Gets fields which are returned as uri's."
+      description: "Gets fields which are returned as uris."
     })
   }
 
