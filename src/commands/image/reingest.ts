@@ -117,7 +117,7 @@ export default class ImageReingest extends ApiCommand {
     throw new Error(`Timed out trying to find image – tried ${maxIterations} times over ${maxIterations * delayBetweenRequestsInMs / 1000} seconds`)
   }
 
-  private readonly wait = (delayInMs: number) => new Promise(resolve => setTimeout(resolve, delayInMs))
+  private readonly wait = (delayInMs: number) => new Promise<void>(resolve => setTimeout(() => resolve(), delayInMs))
 
   private imageExists(imageResponse: any) {
     return imageResponse && !imageResponse.errorMessage

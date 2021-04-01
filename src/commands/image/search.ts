@@ -2,7 +2,6 @@ import {flags} from '@oclif/command'
 
 import ApiCommand from '../../base-commands/api'
 
-
 export default class ImageSearch extends ApiCommand {
   static description = 'Search for an Image from the API'
 

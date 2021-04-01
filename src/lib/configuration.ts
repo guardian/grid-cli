@@ -4,8 +4,8 @@ import * as path from 'path'
 import {Config, ProfileConfig} from '../types/config'
 
 class Configuration {
-  private static configDirectory = path.join(process.env.HOME || '', '.gu')
-  private static filePath = path.join(Configuration.configDirectory, 'grid-cli-config.json')
+  private static readonly configDirectory = path.join(process.env.HOME || '', '.gu')
+  private static readonly filePath = path.join(Configuration.configDirectory, 'grid-cli-config.json')
 
   public isValid: boolean
   public exists: boolean
@@ -44,7 +44,7 @@ class Configuration {
     return this.config!.profiles.find(_ => _.name === name)
   }
 
-  private squashProfiles = (profiles: ProfileConfig[], newProfileConfig: ProfileConfig) => {
+  private readonly squashProfiles = (profiles: ProfileConfig[], newProfileConfig: ProfileConfig) => {
     const shouldReplaceProfile = profiles.find(_ => _.name === newProfileConfig.name)
 
     if (!shouldReplaceProfile) {

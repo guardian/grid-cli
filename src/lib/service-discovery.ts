@@ -24,7 +24,7 @@ class ServiceDiscovery {
     return this.services!.links.find(_ => _.rel === rel)
   }
 
-  private ensureDiscoverCalled = () => {
+  private readonly ensureDiscoverCalled = () => {
     if (!this.services) {
       throw new Error('Services not discovered - call `.discover` first')
     }
