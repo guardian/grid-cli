@@ -31,7 +31,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.4.0 darwin-x64 node-v15.3.0
+@guardian/grid-cli/1.4.0 darwin-x64 node-v12.9.1
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
