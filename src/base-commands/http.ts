@@ -8,17 +8,15 @@ import { ProfileConfig } from '../types/config'
 import ProfileCommand from './profile'
 
 export default abstract class HttpCommand extends ProfileCommand {
-  static flags = {
-    ...ProfileCommand.flags,
-  }
-
   // `init` gets called before a command's `run`, so `profile` and `http` will be assigned on time
   protected profile: ProfileConfig | undefined
   protected http: Http | undefined
 
+  // required to parse flags as HttpCommand - a real command will have more args than '--profile'
+  static strict = false
+
   async init() {
-    // @ts-ignore
-    const { flags } = this.parse(this.constructor) as any
+    const { flags } = await this.parse(HttpCommand)
 
     const configuration = new Configuration()
     const profile = configuration.getProfile(flags.profile)
