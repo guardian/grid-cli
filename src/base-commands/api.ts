@@ -4,6 +4,7 @@ import terminalImage from 'terminal-image'
 import terminalLink from 'terminal-link'
 
 import HttpCommand from './http'
+import type { PageInfo } from '../types/paging'
 
 export default abstract class ApiCommand extends HttpCommand {
   static flags = {
@@ -67,10 +68,12 @@ export default abstract class ApiCommand extends HttpCommand {
     return this.http!.get(url).then(_ => _.json())
   }
 
-  protected async search(q: string) {
+  protected async search(q: string, pageInfo?: PageInfo) {
     const mainEndpoint = `${this.profile!.mediaApiHost}images`
 
-    const endpoint = `${mainEndpoint}?q=${q}`
+    const paging = pageInfo === undefined ? '' : `&offset=${pageInfo.page * pageInfo.size}&length=${pageInfo.size}`
+
+    const endpoint = `${mainEndpoint}?q=${q}${paging}`
     const url = new URL(endpoint)
     return this.http!.get(url).then(_ => _.json())
   }
