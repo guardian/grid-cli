@@ -14,18 +14,18 @@ export default class ImageReingest extends ApiCommand {
     dryRun: Flags.boolean({
       name: 'dry-run',
       description: 'Display the result of the reingestion only',
-      char: 'd'
+      char: 'd',
     }),
     compare: Flags.boolean({
       name: 'compare',
       description: 'Do a dry run, and display the difference between the result and the data returned for this image from media-api',
-      char: 'c'
+      char: 'c',
     }),
     force: Flags.boolean({
       name: 'force',
       description: 'Force reingestion if the image is already present in the Grid',
-      char: 'f'
-    })
+      char: 'f',
+    }),
   }
 
   static args = [{
@@ -43,7 +43,7 @@ export default class ImageReingest extends ApiCommand {
     const profile = this.profile!
     const dryRun = flags.dryRun
     const compare = flags.compare
-    const force = !!flags.force
+    const force = Boolean(flags.force)
 
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const adminTools = serviceDiscovery.getLink('admin-tools')
@@ -61,28 +61,31 @@ export default class ImageReingest extends ApiCommand {
     const imageToReingest = await this.fetchProjection(imageId, adminTools.href, !dryRun)
 
     if (dryRun || compare) {
-      await this.printProjection(imageToReingest, !!compare)
+      await this.printProjection(imageToReingest, Boolean(compare))
     } else {
       this.log(`Reingestion for image with id ${imageId} sent to queue.\n`)
       try {
         await this.pollForImage(imageId)
         this.log('\nImage successfully reingested.')
-      } catch (e) {
-        this.error((e as Error)?.message)
+      } catch (error) {
+        this.error((error as Error)?.message)
       }
     }
   }
 
   private async printProjection(
     projection: any,
-    diffAgainstES: boolean
+    diffAgainstES: boolean,
   ) {
     if (diffAgainstES) {
       const image = await this.fetchImage(projection.id, '_elasticsearch')
       const imageDiff = diff.diffJson(image.data || {}, projection)
+      /* eslint-disable indent */
+      // eslint tries to align the `.map`s with the `imageDiff`
       imageDiff
         .map(this.changeToConsoleString)
         .map(_ => this.log(_))
+      /* eslint-enable indent */
     } else {
       this.log(JSON.stringify(projection, null, 2))
     }
@@ -93,10 +96,12 @@ export default class ImageReingest extends ApiCommand {
     if (reingest) {
       url.searchParams.append('reingest', 'true')
     }
+
     return this.http!.get(url).then(res => {
       if (res.status !== 200) {
         this.error(`Could not fetch projection – admin-tools returned ${res.status}: ${res.statusText}`, { exit: 1 })
       }
+
       return res.json()
     })
   }
@@ -110,21 +115,26 @@ export default class ImageReingest extends ApiCommand {
       if (this.imageExists(imageResponse)) {
         return
       }
+
       await this.wait(delayBetweenRequestsInMs)
       currentIteration++
     }
+
     this.log('\n')
     throw new Error(`Timed out trying to find image – tried ${maxIterations} times over ${maxIterations * delayBetweenRequestsInMs / 1000} seconds`)
   }
 
-  private readonly wait = (delayInMs: number) => new Promise<void>(resolve => setTimeout(() => resolve(), delayInMs))
+  private readonly wait = (delayInMs: number) =>
+    new Promise<void>(resolve => {
+      setTimeout(() => resolve(), delayInMs)
+    })
 
   private imageExists(imageResponse: any) {
     return imageResponse && !imageResponse.errorMessage
   }
 
   private changeToConsoleString(change: diff.Change) {
-    const color = change.added ? 'green' : change.removed ? 'red' : 'grey'
+    const color = change.added ? 'green' : (change.removed ? 'red' : 'grey')
     return colors[color](change.value)
   }
 }

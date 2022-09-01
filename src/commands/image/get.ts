@@ -9,12 +9,12 @@ export default class ImageGet extends ApiCommand {
     ...ApiCommand.flags,
     help: Flags.help({ char: 'h' }),
     hydrate: Flags.boolean({
-      description: 'Gets fields which are returned as uris.'
-    })
+      description: 'Gets fields which are returned as uris.',
+    }),
   }
 
   static args = [
-    { name: 'id', description: 'ID of image' }
+    { name: 'id', description: 'ID of image' },
   ]
 
   async run() {
@@ -26,9 +26,9 @@ export default class ImageGet extends ApiCommand {
       await this.printImages([image], field, thumbnail)
       return
     }
+
     const data = await this.hydrate(image.data)
     await this.printImages([{ ...image, data }], field, thumbnail)
-
   }
 
   async hydrate(image: any) {
@@ -38,9 +38,11 @@ export default class ImageGet extends ApiCommand {
         if (typeof value !== 'object' || Object.keys(value!).length > 1) {
           return [key, value]
         }
+
         if (!value || !('uri' in value)) {
           return [key, value]
         }
+
         const { uri } = value as { uri: string }
         const response = await this.http!.get(new URL(uri))
         const { data } = await response.json()

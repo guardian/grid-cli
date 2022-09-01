@@ -14,16 +14,16 @@ export default class UtilCurl extends HttpCommand {
       char: 'x',
       description: 'The HTTP verb to use',
       options: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-      default: 'GET'
+      default: 'GET',
     }),
     data: Flags.string({
       char: 'd',
-      description: 'The body of the request'
-    })
+      description: 'The body of the request',
+    }),
   }
 
   static args = [
-    { name: 'url', description: 'The URL to request', required: true }
+    { name: 'url', description: 'The URL to request', required: true },
   ]
 
   async run() {

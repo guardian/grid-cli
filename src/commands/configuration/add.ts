@@ -14,16 +14,19 @@ export default class ConfigurationAdd extends ProfileCommand {
     help: Flags.help({ char: 'h' }),
     mediaApiHost: Flags.string({ char: 'm', description: 'Hostname for media-api' }),
     apiKey: Flags.string({ char: 'k', description: 'API key' }),
-    preventProfileChange: Flags.boolean({ char: 'x', hidden: true })
+    preventProfileChange: Flags.boolean({ char: 'x', hidden: true }),
   }
 
   async run() {
-    let { flags: { profile, mediaApiHost, apiKey, preventProfileChange } } = await this.parse(ConfigurationAdd)
+    const { flags } = await this.parse(ConfigurationAdd)
+    let { profile, mediaApiHost, apiKey } = flags
+    const { preventProfileChange } = flags
 
     if (!mediaApiHost || !apiKey) {
       if (!preventProfileChange) {
         profile = await CliUx.ux.prompt('What profile shall we setup?', { default: profile })
       }
+
       mediaApiHost = await CliUx.ux.prompt(`[profile: ${profile}] What is the root for the Media API?`, { required: true })
       apiKey = await CliUx.ux.prompt(`[profile: ${profile}] What is your API key?`, { required: true })
     }
@@ -37,7 +40,7 @@ export default class ConfigurationAdd extends ProfileCommand {
     const newProfile = {
       name: profile!,
       mediaApiHost: maybeMediaApi.get(),
-      apiKey: apiKey!
+      apiKey: apiKey!,
     }
 
     const configuration = new Configuration()

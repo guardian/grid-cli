@@ -15,7 +15,7 @@ export default class ImageUpload extends HttpCommand {
   }
 
   static args = [
-    { name: 'image', description: 'Image to upload. If a URL, it must be publicly accessible', required: true }
+    { name: 'image', description: 'Image to upload. If a URL, it must be publicly accessible', required: true },
   ]
 
   async run() {

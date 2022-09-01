@@ -9,11 +9,11 @@ export default class ImageVisit extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: Flags.help({ char: 'h' })
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
-    { name: 'id', description: 'ID of image', required: true }
+    { name: 'id', description: 'ID of image', required: true },
   ]
 
   async run() {

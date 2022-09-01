@@ -12,7 +12,7 @@ export default class ImageSearch extends ApiCommand {
   }
 
   static args = [
-    { name: 'q', description: 'Search query' }
+    { name: 'q', description: 'Search query' },
   ]
 
   async run() {
@@ -21,10 +21,10 @@ export default class ImageSearch extends ApiCommand {
       this.error('No search parameter given')
       return 1
     }
+
     this.log(`Searching for ${q}`)
     const results = await this.search(q)
 
     await this.printImages(results.data, field, thumbnail)
-
   }
 }

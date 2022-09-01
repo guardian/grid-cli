@@ -14,7 +14,7 @@ export default class BulkRights extends ApiCommand {
   }
 
   static rightsTuples = Object.entries(
-    BulkRights.rights
+    BulkRights.rights,
   ).map(([name, data]) => [name, JSON.stringify(data)])
 
   static flags = {
@@ -43,9 +43,12 @@ export default class BulkRights extends ApiCommand {
   ]
 
   getRights(json: string): (keyof typeof BulkRights.rights) | string {
+    /* eslint-disable indent */
+    // eslint wants the `.filter` and `.map` to align with the `return`
     return BulkRights.rightsTuples
       .filter(([, j]) => j === json)
       .map(([name]) => name)[0] ?? json
+    /* eslint-enable indent */
   }
 
   async updateImage(id: string, updateMessage: string, output: WriteStream, failures: WriteStream) {
@@ -56,17 +59,19 @@ export default class BulkRights extends ApiCommand {
       output.write(`${id}\t ERROR\n`)
       return false
     }
+
     if ('errorMessage' in image) {
       this.log(`Could not find ${id} ${image.errorMessage}`)
       failures.write(`${id}\n`)
       output.write(`${id}\t ${image.errorKey}\n`)
       return false
     }
+
     const imageRightsJSON = JSON.stringify(image.data.usageRights)
 
     const imageRights = this.getRights(imageRightsJSON)
 
-    const edit = image.links.filter((_: { rel: string }) => _.rel === 'edits')[0].href
+    const edit = image.links.find((_: { rel: string }) => _.rel === 'edits').href
 
     const endpoint = new URL(`${edit}/usage-rights`)
     try {
@@ -74,7 +79,7 @@ export default class BulkRights extends ApiCommand {
 
       if (response.status !== 200) {
         this.log(`${id} update failed with status code ${response.status}`)
-        failures.write(`${id}\m`)
+        failures.write(`${id}\n`)
         output.write(`${id}\t FAILED\n`)
         this.log(await response.text())
         return false
@@ -86,7 +91,7 @@ export default class BulkRights extends ApiCommand {
       output.write(`${id}\t SUCCESS\t ${newRights}\n`)
     } catch {
       this.log(`Update failed on ${id}`)
-      failures.write(`${id}\m`)
+      failures.write(`${id}\n`)
       output.write(`${id}\t FAILED\n`)
     }
   }

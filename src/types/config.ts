@@ -1,4 +1,4 @@
-import {URL} from 'url'
+import { URL } from 'url'
 
 type ApiKey = string
 
@@ -15,5 +15,5 @@ interface Config {
 export {
   ApiKey,
   ProfileConfig,
-  Config
+  Config,
 }

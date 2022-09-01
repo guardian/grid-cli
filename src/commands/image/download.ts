@@ -13,7 +13,7 @@ export default class ImageDownload extends HttpCommand {
   }
 
   static args = [
-    { name: 'id', description: 'ID of image', required: true }
+    { name: 'id', description: 'ID of image', required: true },
   ]
 
   async run() {

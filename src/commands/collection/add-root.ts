@@ -9,11 +9,11 @@ export default class CollectionAddRoot extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: Flags.help({ char: 'h' })
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
-    { name: 'name', description: 'Root collection to add', required: true }
+    { name: 'name', description: 'Root collection to add', required: true },
   ]
 
   async run() {

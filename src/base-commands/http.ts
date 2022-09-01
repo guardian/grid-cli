@@ -44,6 +44,7 @@ export default abstract class HttpCommand extends ProfileCommand {
       this.error(err.message, { exit: false })
       this.error('If you are using a self-signed certificate perhaps through using guardian/dev-nginx, set the `NODE_EXTRA_CA_CERTS` environment variable first', { exit: false })
     }
+
     throw err
   }
 }

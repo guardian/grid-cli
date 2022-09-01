@@ -9,7 +9,7 @@ export default class ConfigurationRead extends ProfileCommand {
   static flags = {
     ...ProfileCommand.flags,
     help: Flags.help({ char: 'h' }),
-    all: Flags.boolean({ char: 'a', description: 'show all profiles' })
+    all: Flags.boolean({ char: 'a', description: 'show all profiles' }),
   }
 
   async run() {

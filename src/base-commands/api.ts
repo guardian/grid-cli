@@ -15,8 +15,8 @@ export default abstract class ApiCommand extends HttpCommand {
     }),
     thumbnail: Flags.boolean({
       char: 't',
-      description: 'show a thumbnail'
-    })
+      description: 'show a thumbnail',
+    }),
   }
 
   protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean) {
@@ -30,29 +30,31 @@ export default abstract class ApiCommand extends HttpCommand {
           if (link) {
             return terminalLink(link.rel, link.href)
           }
+
+          throw new Error(`No field named ${f} for image ${image}`)
         }).join('\t')
 
       if (!thumbnail) {
         return [out]
       }
+
       const url = image?.data?.thumbnail?.secureUrl ?? ''
       try {
         const resp = await this.http!.get(new URL(url))
         const buffer = await resp.buffer()
         const thumb = await terminalImage.buffer(buffer, { height: '20%' })
         return [out, thumb]
-
       } catch {
         return [out]
       }
     }))
-      ;
-    (await output).forEach(([fields, thumb]) => {
+
+    for (const [fields, thumb] of await output) {
       this.log(fields)
       if (thumb) {
         this.log(thumb)
       }
-    })
+    }
   }
 
   protected async fetchImage(id: string, suffix?: string) {

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
-import * as path from 'path'
+import path from 'path'
 
-import {Config, ProfileConfig} from '../types/config'
+import { Config, ProfileConfig } from '../types/config'
 
 class Configuration {
   private static readonly configDirectory = path.join(process.env.HOME || '', '.gu')
@@ -16,6 +16,7 @@ class Configuration {
 
     if (this.exists) {
       // TODO enforce stricter validation
+      // TODO use JSON.parse(fs.readFile(x))
       this.config = require(Configuration.filePath) as Config
       this.isValid = true
     } else {
@@ -24,9 +25,9 @@ class Configuration {
   }
 
   public addProfile = (newProfile: ProfileConfig) => {
-    const updatedConfig: Config = this.isValid
-      ? {profiles: this.squashProfiles(this.config!.profiles, newProfile)}
-      : {profiles: [newProfile]}
+    const updatedConfig: Config = this.isValid ?
+      { profiles: this.squashProfiles(this.config!.profiles, newProfile) } :
+      { profiles: [newProfile] }
 
     if (!fs.existsSync(Configuration.configDirectory)) {
       fs.mkdirSync(Configuration.configDirectory)

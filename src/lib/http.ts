@@ -1,10 +1,10 @@
-import {createWriteStream} from 'fs'
+import { createWriteStream } from 'fs'
 import fetch from 'node-fetch'
-import {pipeline} from 'stream'
-import {URL} from 'url'
-import {promisify} from 'util'
+import { pipeline } from 'stream'
+import { URL } from 'url'
+import { promisify } from 'util'
 
-import {ApiKey} from '../types/config'
+import { ApiKey } from '../types/config'
 
 class Http {
   private readonly apiKey: ApiKey
@@ -42,7 +42,7 @@ class Http {
   public get = (url: URL) => {
     return fetch(url.toString(), {
       method: 'GET',
-      headers: this.headers()
+      headers: this.headers(),
     })
   }
 
@@ -50,7 +50,7 @@ class Http {
     return fetch(url.toString(), {
       method: 'POST',
       headers: this.headers(),
-      body
+      body,
     })
   }
 
@@ -58,7 +58,7 @@ class Http {
     return fetch(url.toString(), {
       method: 'PUT',
       headers: this.headers(),
-      body
+      body,
     })
   }
 
@@ -66,14 +66,14 @@ class Http {
     return fetch(url.toString(), {
       method: 'PATCH',
       headers: this.headers(),
-      body
+      body,
     })
   }
 
   public delete = (url: URL) => {
     return fetch(url.toString(), {
       method: 'DELETE',
-      headers: this.headers()
+      headers: this.headers(),
     })
   }
 
@@ -81,7 +81,7 @@ class Http {
     return {
       'X-Gu-Media-Key': this.apiKey,
       Accept: 'application/vnd.argo+json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
   }
 }

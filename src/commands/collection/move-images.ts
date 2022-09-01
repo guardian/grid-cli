@@ -10,12 +10,12 @@ export default class CollectionMoveImages extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: Flags.help({ char: 'h' })
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
     { name: 'from', description: 'Collection to rename', required: true },
-    { name: 'to', description: 'Name of new collection', required: true }
+    { name: 'to', description: 'Name of new collection', required: true },
   ]
 
   async run() {
@@ -40,6 +40,7 @@ export default class CollectionMoveImages extends HttpCommand {
     if (!collectionFrom) {
       this.error(`Collection with path ${args.from} not found.`)
     }
+
     if (!collectionTo) {
       this.error(`Collection with path ${args.to} not found.`)
     }
@@ -55,12 +56,12 @@ export default class CollectionMoveImages extends HttpCommand {
     while (offset === 0 || images.length < totalImages) {
       const results = await this.fetchImagesForCollection(collectionFrom, pageSize, offset)
       totalImages = results.total
-      images = images.concat(results.data)
+      images = [...images, results.data]
       offset += pageSize
       this.log(`Fetched ${images.length} of ${totalImages} images`)
     }
 
-    if (!images.length) {
+    if (images.length === 0) {
       this.log(`No images found for collection: ${this.getCollectionPathStr(collectionFrom)}, stopping.`)
       return
     }
@@ -113,5 +114,5 @@ export default class CollectionMoveImages extends HttpCommand {
   private readonly getCollectionPathStr = (collection: any) => collection.fullPath.join('/')
 
   private readonly flattenCollections = (collections: any) => collections.children.reduce((acc: any[], collection: any) =>
-    acc.concat([collection, ...this.flattenCollections(collection.data)]), [])
+    [...acc, collection, ...this.flattenCollections(collection.data)], [])
 }
