@@ -1,6 +1,6 @@
-import {flags} from '@oclif/command'
-import {existsSync, readFileSync} from 'fs'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { existsSync, readFileSync } from 'fs'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'
@@ -11,20 +11,20 @@ export default class ImageUpload extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'}),
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
-    {name: 'image', description: 'Image to upload. If a URL, it must be publicly accessible', required: true}
+    { name: 'image', description: 'Image to upload. If a URL, it must be publicly accessible', required: true }
   ]
 
   async run() {
-    const {args: {image}} = this.parse(ImageUpload)
+    const { args: { image } } = await this.parse(ImageUpload)
 
     const maybeUrl = new Try(() => new URL(image))
 
     if (!maybeUrl.isSuccess && !existsSync(image)) {
-      this.error(`File ${image} does not exist`, {exit: 1})
+      this.error(`File ${image} does not exist`, { exit: 1 })
     }
 
     const profile = this.profile!
@@ -34,7 +34,7 @@ export default class ImageUpload extends HttpCommand {
     const loader = serviceDiscovery.getLink('loader')
 
     if (!loader) {
-      this.error('loader link not found', {exit: 1})
+      this.error('loader link not found', { exit: 1 })
     }
 
     // Grid has a different endpoint for uploading an image as binary and for uploading the image via a url

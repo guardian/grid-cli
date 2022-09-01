@@ -1,4 +1,4 @@
-import {flags} from '@oclif/command'
+import { Flags } from '@oclif/core'
 import * as colors from 'colors/safe'
 import * as diff from 'diff'
 
@@ -10,18 +10,18 @@ export default class ImageReingest extends ApiCommand {
 
   static flags = {
     ...ApiCommand.flags,
-    help: flags.help({char: 'h'}),
-    dryRun: flags.boolean({
+    help: Flags.help({ char: 'h' }),
+    dryRun: Flags.boolean({
       name: 'dry-run',
       description: 'Display the result of the reingestion only',
       char: 'd'
     }),
-    compare: flags.boolean({
+    compare: Flags.boolean({
       name: 'compare',
       description: 'Do a dry run, and display the difference between the result and the data returned for this image from media-api',
       char: 'c'
     }),
-    force: flags.boolean({
+    force: Flags.boolean({
       name: 'force',
       description: 'Force reingestion if the image is already present in the Grid',
       char: 'f'
@@ -35,7 +35,7 @@ export default class ImageReingest extends ApiCommand {
   }]
 
   async run() {
-    const {args, flags} = this.parse(ImageReingest)
+    const { args, flags } = await this.parse(ImageReingest)
 
     const imageId: string = args.id
 
@@ -49,13 +49,13 @@ export default class ImageReingest extends ApiCommand {
     const adminTools = serviceDiscovery.getLink('admin-tools')
 
     if (!adminTools) {
-      this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, {exit: 1})
+      this.error(`Could not find the admin-tools service. Is it listed at ${profile.mediaApiHost}?`, { exit: 1 })
     }
 
     const imageResponse = await this.fetchImage(imageId)
 
     if (this.imageExists(imageResponse) && !force) {
-      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid. Add --force to overwrite it.`, {exit: 1})
+      this.error(`Cannot reingest - there is already an image with id ${imageId} in the Grid. Add --force to overwrite it.`, { exit: 1 })
     }
 
     const imageToReingest = await this.fetchProjection(imageId, adminTools.href, !dryRun)
@@ -68,7 +68,7 @@ export default class ImageReingest extends ApiCommand {
         await this.pollForImage(imageId)
         this.log('\nImage successfully reingested.')
       } catch (e) {
-        this.error(e.message)
+        this.error((e as Error)?.message)
       }
     }
   }
@@ -95,7 +95,7 @@ export default class ImageReingest extends ApiCommand {
     }
     return this.http!.get(url).then(res => {
       if (res.status !== 200) {
-        this.error(`Could not fetch projection – admin-tools returned ${res.status}: ${res.statusText}`, {exit: 1})
+        this.error(`Could not fetch projection – admin-tools returned ${res.status}: ${res.statusText}`, { exit: 1 })
       }
       return res.json()
     })

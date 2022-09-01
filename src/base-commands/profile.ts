@@ -1,7 +1,7 @@
-import Command, {flags} from '@oclif/command'
+import { Command, Flags } from '@oclif/core'
 
 export default abstract class ProfileCommand extends Command {
   static flags = {
-    profile: flags.string({char: 'p', description: 'Profile name', default: 'default'})
+    profile: Flags.string({ char: 'p', description: 'Profile name', default: 'default' })
   }
 }

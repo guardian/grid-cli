@@ -1,25 +1,25 @@
-import {flags} from '@oclif/command'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'
-import {Service} from '../../types/service'
+import { Service } from '../../types/service'
 
 export default class CollectionMoveImages extends HttpCommand {
   static description = 'Move images from one collection to another'
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'})
+    help: Flags.help({ char: 'h' })
   }
 
   static args = [
-    {name: 'from', description: 'Collection to rename', required: true},
-    {name: 'to', description: 'Name of new collection', required: true}
+    { name: 'from', description: 'Collection to rename', required: true },
+    { name: 'to', description: 'Name of new collection', required: true }
   ]
 
   async run() {
-    const {args} = this.parse(CollectionMoveImages)
+    const { args } = await this.parse(CollectionMoveImages)
 
     const profile = this.profile!
     const http = this.http!
@@ -27,7 +27,7 @@ export default class CollectionMoveImages extends HttpCommand {
     const serviceDiscovery = await new ServiceDiscovery(http, profile.mediaApiHost).discover()
     const collectionsRoot = serviceDiscovery.getLink('collections')
     if (!collectionsRoot) {
-      this.error('collections link not found', {exit: 1})
+      this.error('collections link not found', { exit: 1 })
     }
 
     // Make sure both from and to collections exist. This guards against casing issues,
@@ -102,7 +102,7 @@ export default class CollectionMoveImages extends HttpCommand {
 
   private readonly addImageToCollection = (collectionsRoot: Service, collection: any, imageId: string) => {
     const url = new URL(`${collectionsRoot.href.toString()}/images/${imageId}`)
-    return this.http!.post(url, JSON.stringify({data: collection.fullPath})).then(_ => _.json())
+    return this.http!.post(url, JSON.stringify({ data: collection.fullPath })).then(_ => _.json())
   }
 
   private readonly removeImageFromCollection = (collectionsRoot: Service, collection: any, imageId: string) => {

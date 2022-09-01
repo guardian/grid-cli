@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import {Command, Flags} from '@oclif/core'
 import * as crypto from 'crypto'
 import * as fs from 'fs'
 
@@ -6,7 +6,7 @@ export default class UtilIdFile extends Command {
   static description = 'Print the ID a file would get if uploaded to Grid'
 
   static flags = {
-    help: flags.help({char: 'h'}),
+    help: Flags.help({char: 'h'}),
   }
 
   static args = [
@@ -14,7 +14,7 @@ export default class UtilIdFile extends Command {
   ]
 
   async run() {
-    const {args} = this.parse(UtilIdFile)
+    const {args} = await this.parse(UtilIdFile)
 
     if (!fs.existsSync(args.file)) {
       this.error(`File ${args.file} does not exist`, {exit: 1})

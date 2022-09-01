@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import ServiceDiscovery from '../../lib/service-discovery'
@@ -9,15 +9,15 @@ export default class CollectionAddRoot extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'})
+    help: Flags.help({ char: 'h' })
   }
 
   static args = [
-    {name: 'name', description: 'Root collection to add', required: true}
+    { name: 'name', description: 'Root collection to add', required: true }
   ]
 
   async run() {
-    const {args} = this.parse(CollectionAddRoot)
+    const { args } = await this.parse(CollectionAddRoot)
 
     const profile = this.profile!
     const http = this.http!
@@ -26,11 +26,11 @@ export default class CollectionAddRoot extends HttpCommand {
     const collectionsRoot = serviceDiscovery.getLink('collections')
 
     if (!collectionsRoot) {
-      this.error('collections link not found', {exit: 1})
+      this.error('collections link not found', { exit: 1 })
     }
 
     const url = new URL(`${collectionsRoot!.href.toString()}/collections`)
-    const newCollection = await http.post(url, JSON.stringify({data: args.name})).then(_ => _.json())
+    const newCollection = await http.post(url, JSON.stringify({ data: args.name })).then(_ => _.json())
     this.log(JSON.stringify(newCollection))
   }
 }

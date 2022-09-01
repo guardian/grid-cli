@@ -1,9 +1,9 @@
-import cli from 'cli-ux'
+import { CliUx } from '@oclif/core'
 
 import ConfigurationAdd from '../commands/configuration/add'
 import Configuration from '../lib/configuration'
 import Http from '../lib/http'
-import {ProfileConfig} from '../types/config'
+import { ProfileConfig } from '../types/config'
 
 import ProfileCommand from './profile'
 
@@ -18,7 +18,7 @@ export default abstract class HttpCommand extends ProfileCommand {
 
   async init() {
     // @ts-ignore
-    const {flags} = this.parse(this.constructor) as any
+    const { flags } = this.parse(this.constructor) as any
 
     const configuration = new Configuration()
     const profile = configuration.getProfile(flags.profile)
@@ -27,7 +27,7 @@ export default abstract class HttpCommand extends ProfileCommand {
       this.profile = profile
       this.http = new Http(profile.apiKey)
     } else {
-      const addConfigNow = await cli.confirm(`No configuration found for profile ${flags.profile}. Add one now?`)
+      const addConfigNow = await CliUx.ux.confirm(`No configuration found for profile ${flags.profile}. Add one now?`)
 
       if (addConfigNow) {
         const newProfile = await ConfigurationAdd.run(['-p', flags.profile, '-x'])
@@ -42,9 +42,9 @@ export default abstract class HttpCommand extends ProfileCommand {
 
   async catch(err: any) {
     if (err.code === 'UNABLE_TO_VERIFY_LEAF_SIGNATURE') {
-      this.error('Failed to make http request', {exit: false})
-      this.error(err.message, {exit: false})
-      this.error('If you are using a self-signed certificate perhaps through using guardian/dev-nginx, set the `NODE_EXTRA_CA_CERTS` environment variable first', {exit: false})
+      this.error('Failed to make http request', { exit: false })
+      this.error(err.message, { exit: false })
+      this.error('If you are using a self-signed certificate perhaps through using guardian/dev-nginx, set the `NODE_EXTRA_CA_CERTS` environment variable first', { exit: false })
     }
     throw err
   }

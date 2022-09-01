@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {createWriteStream, WriteStream} from 'fs'
+import { Flags } from '@oclif/core'
+import { createWriteStream, WriteStream } from 'fs'
 import lines from 'lines-async-iterator'
 
 import ApiCommand from '../../base-commands/api'
@@ -10,7 +10,7 @@ export default class BulkRights extends ApiCommand {
 
   static rights = {
     noRights: {},
-    chargeable: {category: 'chargeable'},
+    chargeable: { category: 'chargeable' },
   }
 
   static rightsTuples = Object.entries(
@@ -19,11 +19,11 @@ export default class BulkRights extends ApiCommand {
 
   static flags = {
     ...ApiCommand.flags,
-    help: flags.help({char: 'h'}),
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
-    {name: 'input', description: 'file to read, containing one grid id per line', required: true},
+    { name: 'input', description: 'file to read, containing one grid id per line', required: true },
     {
       name: 'rights',
       description: 'usageRights to set',
@@ -98,7 +98,7 @@ export default class BulkRights extends ApiCommand {
       return false
     }
 
-    const {args} = this.parse(BulkRights)
+    const { args } = await this.parse(BulkRights)
 
     const failures = createWriteStream(args.failures)
 
@@ -110,7 +110,7 @@ export default class BulkRights extends ApiCommand {
       args.rights in BulkRights.rights &&
       BulkRights.rights[args.rights as keyof typeof BulkRights.rights]
 
-    const updateMessage = JSON.stringify({data: newRights})
+    const updateMessage = JSON.stringify({ data: newRights })
 
     this.log(`Reading ${file}, updating images found to ${args.rights}`)
 

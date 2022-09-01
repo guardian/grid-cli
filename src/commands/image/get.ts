@@ -1,4 +1,4 @@
-import {flags} from '@oclif/command'
+import { Flags } from '@oclif/core'
 
 import ApiCommand from '../../base-commands/api'
 
@@ -7,18 +7,18 @@ export default class ImageGet extends ApiCommand {
 
   static flags = {
     ...ApiCommand.flags,
-    help: flags.help({char: 'h'}),
-    hydrate: flags.boolean({
+    help: Flags.help({ char: 'h' }),
+    hydrate: Flags.boolean({
       description: 'Gets fields which are returned as uris.'
     })
   }
 
   static args = [
-    {name: 'id', description: 'ID of image'}
+    { name: 'id', description: 'ID of image' }
   ]
 
   async run() {
-    const {args: {id}, flags: {field, thumbnail, hydrate}} = this.parse(ImageGet)
+    const { args: { id }, flags: { field, thumbnail, hydrate } } = await this.parse(ImageGet)
 
     const image = await this.fetchImage(id)
 
@@ -27,7 +27,7 @@ export default class ImageGet extends ApiCommand {
       return
     }
     const data = await this.hydrate(image.data)
-    await this.printImages([{...image, data}], field, thumbnail)
+    await this.printImages([{ ...image, data }], field, thumbnail)
 
   }
 
@@ -41,10 +41,10 @@ export default class ImageGet extends ApiCommand {
         if (!value || !('uri' in value)) {
           return [key, value]
         }
-        const {uri} = value as { uri: string }
+        const { uri } = value as { uri: string }
         const response = await this.http!.get(new URL(uri))
-        const {data} = await response.json()
-        return [key, {...value, data}]
+        const { data } = await response.json()
+        return [key, { ...value, data }]
       } catch {
         return [key, value]
       }

@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 import Try from '../../util/try'
@@ -9,30 +9,30 @@ export default class UtilCurl extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'}),
-    method: flags.string({
+    help: Flags.help({ char: 'h' }),
+    method: Flags.string({
       char: 'x',
       description: 'The HTTP verb to use',
       options: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       default: 'GET'
     }),
-    data: flags.string({
+    data: Flags.string({
       char: 'd',
       description: 'The body of the request'
     })
   }
 
   static args = [
-    {name: 'url', description: 'The URL to request', required: true}
+    { name: 'url', description: 'The URL to request', required: true }
   ]
 
   async run() {
-    const {args, flags} = this.parse(UtilCurl)
+    const { args, flags } = await this.parse(UtilCurl)
 
     const maybeUrl = new Try(() => new URL(args.url))
 
     if (!maybeUrl.isSuccess) {
-      this.error(`${args.url} is not a valid url`, {exit: 1})
+      this.error(`${args.url} is not a valid url`, { exit: 1 })
     }
 
     const http = this.http!

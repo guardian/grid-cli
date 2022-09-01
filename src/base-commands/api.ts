@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {get} from 'lodash'
+import { Flags } from '@oclif/core'
+import { get } from 'lodash'
 import terminalImage from 'terminal-image'
 import terminalLink from 'terminal-link'
 
@@ -8,12 +8,12 @@ import HttpCommand from './http'
 export default abstract class ApiCommand extends HttpCommand {
   static flags = {
     ...HttpCommand.flags,
-    field: flags.string({
+    field: Flags.string({
       char: 'f',
       description: 'key or link name to print from each returned image, if none given then image will be output as json',
       multiple: true,
     }),
-    thumbnail: flags.boolean({
+    thumbnail: Flags.boolean({
       char: 't',
       description: 'show a thumbnail'
     })
@@ -25,10 +25,10 @@ export default abstract class ApiCommand extends HttpCommand {
         field.map(f => {
           const v = get(image, f) ?? get(image.data, f)
           if (v) return v
-          const links = ((image.links || []) as unknown as {rel: string, href: string}[])
-          const link = links.find(({rel}) => rel === f)
+          const links = ((image.links || []) as unknown as { rel: string, href: string }[])
+          const link = links.find(({ rel }) => rel === f)
           if (link) {
-             return terminalLink(link.rel, link.href)
+            return terminalLink(link.rel, link.href)
           }
         }).join('\t')
 
@@ -39,14 +39,14 @@ export default abstract class ApiCommand extends HttpCommand {
       try {
         const resp = await this.http!.get(new URL(url))
         const buffer = await resp.buffer()
-        const thumb = await terminalImage.buffer(buffer, {height: '20%'})
+        const thumb = await terminalImage.buffer(buffer, { height: '20%' })
         return [out, thumb]
 
       } catch {
         return [out]
       }
     }))
-    ;
+      ;
     (await output).forEach(([fields, thumb]) => {
       this.log(fields)
       if (thumb) {

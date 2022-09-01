@@ -1,6 +1,6 @@
-import {flags} from '@oclif/command'
+import { Flags } from '@oclif/core'
 import open = require('open')
-import {URL} from 'url'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 
@@ -9,15 +9,15 @@ export default class ImageVisit extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'})
+    help: Flags.help({ char: 'h' })
   }
 
   static args = [
-    {name: 'id', description: 'ID of image', required: true}
+    { name: 'id', description: 'ID of image', required: true }
   ]
 
   async run() {
-    const {args} = this.parse(ImageVisit)
+    const { args } = await this.parse(ImageVisit)
 
     const profile = this.profile!
     const http = this.http!

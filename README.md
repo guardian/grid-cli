@@ -31,7 +31,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (-v|--version|version)
-@guardian/grid-cli/1.4.0 darwin-x64 node-v12.9.1
+@guardian/grid-cli/1.4.0 darwin-x64 node-v16.16.0
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -86,7 +86,7 @@ EXAMPLES
   $ grid autocomplete --refresh-cache
 ```
 
-_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.3/src/commands/autocomplete/index.ts)_
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v1.3.0/src/commands/autocomplete/index.ts)_
 
 ## `grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`
 
@@ -106,7 +106,7 @@ OPTIONS
   -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
                          json
 
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
 
   -p, --profile=profile  [default: default] Profile name
 
@@ -127,7 +127,7 @@ ARGUMENTS
   NAME  Root collection to add
 
 OPTIONS
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -146,7 +146,7 @@ ARGUMENTS
   TO    Name of new collection
 
 OPTIONS
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -161,7 +161,7 @@ USAGE
   $ grid configuration:add
 
 OPTIONS
-  -h, --help                       show CLI help
+  -h, --help                       Show CLI help.
   -k, --apiKey=apiKey              API key
   -m, --mediaApiHost=mediaApiHost  Hostname for media-api
   -p, --profile=profile            [default: default] Profile name
@@ -179,7 +179,7 @@ USAGE
 
 OPTIONS
   -a, --all              show all profiles
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -187,20 +187,20 @@ _See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid
 
 ## `grid help [COMMAND]`
 
-display help for grid
+Display help for grid.
 
 ```
 USAGE
   $ grid help [COMMAND]
 
 ARGUMENTS
-  COMMAND  command to show help for
+  COMMAND  Command to show help for.
 
 OPTIONS
-  --all  see all commands in CLI
+  -n, --nested-commands  Include all nested commands in the output.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.12/src/commands/help.ts)_
 
 ## `grid image:delete ID`
 
@@ -214,7 +214,7 @@ ARGUMENTS
   ID  ID of image
 
 OPTIONS
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -233,7 +233,7 @@ ARGUMENTS
 
 OPTIONS
   -d, --directory=directory  [default: /tmp] directory to download to
-  -h, --help                 show CLI help
+  -h, --help                 Show CLI help.
   -p, --profile=profile      [default: default] Profile name
 ```
 
@@ -254,7 +254,7 @@ OPTIONS
   -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
                          json
 
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
 
   -p, --profile=profile  [default: default] Profile name
 
@@ -287,7 +287,7 @@ OPTIONS
 
   -f, --force            Force reingestion if the image is already present in the Grid
 
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
 
   -p, --profile=profile  [default: default] Profile name
 
@@ -311,7 +311,7 @@ OPTIONS
   -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
                          json
 
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
 
   -p, --profile=profile  [default: default] Profile name
 
@@ -332,7 +332,7 @@ ARGUMENTS
   IMAGE  Image to upload. If a URL, it must be publicly accessible
 
 OPTIONS
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -350,7 +350,7 @@ ARGUMENTS
   ID  ID of image
 
 OPTIONS
-  -h, --help             show CLI help
+  -h, --help             Show CLI help.
   -p, --profile=profile  [default: default] Profile name
 ```
 
@@ -369,7 +369,7 @@ ARGUMENTS
 
 OPTIONS
   -d, --data=data                         The body of the request
-  -h, --help                              show CLI help
+  -h, --help                              Show CLI help.
   -p, --profile=profile                   [default: default] Profile name
   -x, --method=GET|POST|PUT|PATCH|DELETE  [default: GET] The HTTP verb to use
 ```
@@ -388,7 +388,7 @@ ARGUMENTS
   FILE  Path to file to upload
 
 OPTIONS
-  -h, --help  show CLI help
+  -h, --help  Show CLI help.
 ```
 
 _See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/util/id-file.ts)_
