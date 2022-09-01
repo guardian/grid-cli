@@ -23,7 +23,7 @@ export default abstract class ApiCommand extends HttpCommand {
     const output = Promise.all(images.map(async image => {
       const out = field === undefined ? JSON.stringify(image, null, 2) :
         field.map(f => {
-          const v = get(image, f)
+          const v = get(image, f) ?? get(image.data, f)
           if (v) return v
           const links = ((image.links || []) as unknown as {rel: string, href: string}[])
           const link = links.find(({rel}) => rel === f)
