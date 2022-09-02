@@ -10,6 +10,7 @@ export default class ImageSearch extends ApiCommand {
     help: Flags.help({ char: 'h' }),
     maxResults: Flags.integer({ char: 'n', default: 10, min: 1 }),
     pageSize: Flags.integer({ char: 's', default: 10, min: 1, max: 200 }),
+    output: Flags.string({ char: 'o' }),
   }
 
   static args = [
@@ -17,10 +18,9 @@ export default class ImageSearch extends ApiCommand {
   ]
 
   async run() {
-    const { args: { q }, flags: { field, thumbnail, maxResults, pageSize } } = await this.parse(ImageSearch)
+    const { args: { q }, flags: { field, thumbnail, maxResults, pageSize, output } } = await this.parse(ImageSearch)
     if (q === undefined) {
-      this.error('No search parameter given')
-      return
+      return this.error('No search parameter given')
     }
 
     this.log(`Searching for ${q}`)
@@ -38,6 +38,6 @@ export default class ImageSearch extends ApiCommand {
       }
     }
 
-    await this.printImages(results, field, thumbnail)
+    await this.printImages(results, field, thumbnail, output)
   }
 }

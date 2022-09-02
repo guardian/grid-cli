@@ -5,6 +5,7 @@ import terminalLink from 'terminal-link'
 
 import HttpCommand from './http'
 import type { PageInfo } from '../types/paging'
+import { createWriteStream } from 'fs'
 
 export default abstract class ApiCommand extends HttpCommand {
   static flags = {
@@ -20,7 +21,16 @@ export default abstract class ApiCommand extends HttpCommand {
     }),
   }
 
-  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean) {
+  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean, outputFile: string | undefined) {
+    const outputStream = outputFile ? createWriteStream(outputFile) : undefined
+    const writeOutput = (o: string): void => {
+      if (outputStream) {
+        outputStream.write(o + '\n')
+      } else {
+        process.stdout.write(o + '\n')
+      }
+    }
+
     const output = Promise.all(images.map(async image => {
       const out = field === undefined ? JSON.stringify(image, null, 2) :
         field.map(f => {
@@ -51,9 +61,9 @@ export default abstract class ApiCommand extends HttpCommand {
     }))
 
     for (const [fields, thumb] of await output) {
-      this.log(fields)
+      writeOutput(fields)
       if (thumb) {
-        this.log(thumb)
+        writeOutput(thumb)
       }
     }
   }
