@@ -30,8 +30,8 @@ npm install -g @guardian/grid-cli
 $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
-$ grid (-v|--version|version)
-@guardian/grid-cli/1.4.0 darwin-x64 node-v16.16.0
+$ grid (--version)
+@guardian/grid-cli/1.4.0 darwin-x64 node-v16.17.0
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -71,18 +71,24 @@ display autocomplete installation instructions
 
 ```
 USAGE
-  $ grid autocomplete [SHELL]
+  $ grid autocomplete [SHELL] [-r]
 
 ARGUMENTS
   SHELL  shell type
 
-OPTIONS
+FLAGS
   -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+DESCRIPTION
+  display autocomplete installation instructions
 
 EXAMPLES
   $ grid autocomplete
+
   $ grid autocomplete bash
+
   $ grid autocomplete zsh
+
   $ grid autocomplete --refresh-cache
 ```
 
@@ -94,7 +100,7 @@ Reads a text file containing image ids, and sets their usage rights.
 
 ```
 USAGE
-  $ grid bulk:rights INPUT RIGHTS OUTPUT FAILURES
+  $ grid bulk:rights [INPUT] [RIGHTS] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h]
 
 ARGUMENTS
   INPUT     file to read, containing one grid id per line
@@ -102,15 +108,15 @@ ARGUMENTS
   OUTPUT    file to output results to
   FAILURES  file to write bad ids to
 
-OPTIONS
-  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
-                         json
+FLAGS
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
 
-  -h, --help             Show CLI help.
-
-  -p, --profile=profile  [default: default] Profile name
-
-  -t, --thumbnail        show a thumbnail
+DESCRIPTION
+  Reads a text file containing image ids, and sets their usage rights.
 ```
 
 _See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/bulk/rights.ts)_
@@ -121,14 +127,17 @@ Add a root collection
 
 ```
 USAGE
-  $ grid collection:add-root NAME
+  $ grid collection:add-root [NAME] [-p <value>] [-h]
 
 ARGUMENTS
   NAME  Root collection to add
 
-OPTIONS
+FLAGS
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  Add a root collection
 ```
 
 _See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/collection/add-root.ts)_
@@ -139,15 +148,18 @@ Move images from one collection to another
 
 ```
 USAGE
-  $ grid collection:move-images FROM TO
+  $ grid collection:move-images [FROM] [TO] [-p <value>] [-h]
 
 ARGUMENTS
   FROM  Collection to rename
   TO    Name of new collection
 
-OPTIONS
+FLAGS
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  Move images from one collection to another
 ```
 
 _See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/collection/move-images.ts)_
@@ -158,13 +170,16 @@ Add a configuration profile
 
 ```
 USAGE
-  $ grid configuration:add
+  $ grid configuration:add [-p <value>] [-h] [-m <value>] [-k <value>]
 
-OPTIONS
-  -h, --help                       Show CLI help.
-  -k, --apiKey=apiKey              API key
-  -m, --mediaApiHost=mediaApiHost  Hostname for media-api
-  -p, --profile=profile            [default: default] Profile name
+FLAGS
+  -h, --help                  Show CLI help.
+  -k, --apiKey=<value>        API key
+  -m, --mediaApiHost=<value>  Hostname for media-api
+  -p, --profile=<value>       [default: default] Profile name
+
+DESCRIPTION
+  Add a configuration profile
 ```
 
 _See code: [src/commands/configuration/add.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/configuration/add.ts)_
@@ -175,32 +190,38 @@ Echos current config
 
 ```
 USAGE
-  $ grid configuration:read
+  $ grid configuration:read [-p <value>] [-h] [-a]
 
-OPTIONS
+FLAGS
   -a, --all              show all profiles
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  Echos current config
 ```
 
 _See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/configuration/read.ts)_
 
 ## `grid help [COMMAND]`
 
-display help for grid
+Display help for grid.
 
 ```
 USAGE
-  $ grid help [COMMAND]
+  $ grid help [COMMAND] [-n]
 
 ARGUMENTS
-  COMMAND  command to show help for
+  COMMAND  Command to show help for.
 
-OPTIONS
-  --all  see all commands in CLI
+FLAGS
+  -n, --nested-commands  Include all nested commands in the output.
+
+DESCRIPTION
+  Display help for grid.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.18/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.12/src/commands/help.ts)_
 
 ## `grid image:delete ID`
 
@@ -208,14 +229,17 @@ Delete an image from Grid
 
 ```
 USAGE
-  $ grid image:delete ID
+  $ grid image:delete [ID] [-p <value>] [-h]
 
 ARGUMENTS
   ID  ID of image
 
-OPTIONS
+FLAGS
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  Delete an image from Grid
 ```
 
 _See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/delete.ts)_
@@ -226,15 +250,18 @@ describe the command here
 
 ```
 USAGE
-  $ grid image:download ID
+  $ grid image:download [ID] [-p <value>] [-h] [-d <value>]
 
 ARGUMENTS
   ID  ID of image
 
-OPTIONS
-  -d, --directory=directory  [default: /tmp] directory to download to
-  -h, --help                 Show CLI help.
-  -p, --profile=profile      [default: default] Profile name
+FLAGS
+  -d, --directory=<value>  [default: /tmp] directory to download to
+  -h, --help               Show CLI help.
+  -p, --profile=<value>    [default: default] Profile name
+
+DESCRIPTION
+  describe the command here
 ```
 
 _See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/download.ts)_
@@ -245,22 +272,21 @@ Get an Image from the API
 
 ```
 USAGE
-  $ grid image:get [ID]
+  $ grid image:get [ID] [-p <value>] [-f <value>] [-t] [-h] [--hydrate]
 
 ARGUMENTS
   ID  ID of image
 
-OPTIONS
-  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
-                         json
+FLAGS
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
+  --hydrate               Gets fields which are returned as uris.
 
-  -h, --help             Show CLI help.
-
-  -p, --profile=profile  [default: default] Profile name
-
-  -t, --thumbnail        show a thumbnail
-
-  --hydrate              Gets fields which are returned as uris.
+DESCRIPTION
+  Get an Image from the API
 ```
 
 _See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/get.ts)_
@@ -271,27 +297,24 @@ Reingest an image already present in the images bucket
 
 ```
 USAGE
-  $ grid image:reingest ID
+  $ grid image:reingest [ID] [-p <value>] [-f <value>] [-t] [-h] [-d] [-c] [-f]
 
 ARGUMENTS
   ID  ID of image
 
-OPTIONS
-  -c, --compare          Do a dry run, and display the difference between the result and the data returned for this
-                         image from media-api
+FLAGS
+  -c, --compare           Do a dry run, and display the difference between the result and the data returned for this
+                          image from media-api
+  -d, --dryRun            Display the result of the reingestion only
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -f, --force             Force reingestion if the image is already present in the Grid
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
 
-  -d, --dryRun           Display the result of the reingestion only
-
-  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
-                         json
-
-  -f, --force            Force reingestion if the image is already present in the Grid
-
-  -h, --help             Show CLI help.
-
-  -p, --profile=profile  [default: default] Profile name
-
-  -t, --thumbnail        show a thumbnail
+DESCRIPTION
+  Reingest an image already present in the images bucket
 ```
 
 _See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/reingest.ts)_
@@ -302,20 +325,20 @@ Search for an Image from the API
 
 ```
 USAGE
-  $ grid image:search [Q]
+  $ grid image:search [Q] [-p <value>] [-f <value>] [-t] [-h]
 
 ARGUMENTS
   Q  Search query
 
-OPTIONS
-  -f, --field=field      key or link name to print from each returned image, if none given then image will be output as
-                         json
+FLAGS
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
 
-  -h, --help             Show CLI help.
-
-  -p, --profile=profile  [default: default] Profile name
-
-  -t, --thumbnail        show a thumbnail
+DESCRIPTION
+  Search for an Image from the API
 ```
 
 _See code: [src/commands/image/search.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/search.ts)_
@@ -326,14 +349,17 @@ Upload an image to Grid. Can be a local file or a publicly accessible URL
 
 ```
 USAGE
-  $ grid image:upload IMAGE
+  $ grid image:upload [IMAGE] [-p <value>] [-h]
 
 ARGUMENTS
   IMAGE  Image to upload. If a URL, it must be publicly accessible
 
-OPTIONS
+FLAGS
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  Upload an image to Grid. Can be a local file or a publicly accessible URL
 ```
 
 _See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/upload.ts)_
@@ -344,14 +370,17 @@ View image in the browser
 
 ```
 USAGE
-  $ grid image:visit ID
+  $ grid image:visit [ID] [-p <value>] [-h]
 
 ARGUMENTS
   ID  ID of image
 
-OPTIONS
+FLAGS
   -h, --help             Show CLI help.
-  -p, --profile=profile  [default: default] Profile name
+  -p, --profile=<value>  [default: default] Profile name
+
+DESCRIPTION
+  View image in the browser
 ```
 
 _See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/image/visit.ts)_
@@ -362,16 +391,20 @@ Make an authenticated request to a Grid URL. Assumes response is JSON.
 
 ```
 USAGE
-  $ grid util:curl URL
+  $ grid util:curl [URL] [-p <value>] [-h] [-x GET|POST|PUT|PATCH|DELETE] [-d <value>]
 
 ARGUMENTS
   URL  The URL to request
 
-OPTIONS
-  -d, --data=data                         The body of the request
-  -h, --help                              Show CLI help.
-  -p, --profile=profile                   [default: default] Profile name
-  -x, --method=GET|POST|PUT|PATCH|DELETE  [default: GET] The HTTP verb to use
+FLAGS
+  -d, --data=<value>     The body of the request
+  -h, --help             Show CLI help.
+  -p, --profile=<value>  [default: default] Profile name
+  -x, --method=<option>  [default: GET] The HTTP verb to use
+                         <options: GET|POST|PUT|PATCH|DELETE>
+
+DESCRIPTION
+  Make an authenticated request to a Grid URL. Assumes response is JSON.
 ```
 
 _See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/util/curl.ts)_
@@ -382,13 +415,16 @@ Print the ID a file would get if uploaded to Grid
 
 ```
 USAGE
-  $ grid util:id-file FILE
+  $ grid util:id-file [FILE] [-h]
 
 ARGUMENTS
   FILE  Path to file to upload
 
-OPTIONS
+FLAGS
   -h, --help  Show CLI help.
+
+DESCRIPTION
+  Print the ID a file would get if uploaded to Grid
 ```
 
 _See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/util/id-file.ts)_
