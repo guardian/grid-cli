@@ -1,0 +1,26 @@
+name: release
+
+# automatically create and upload tarballs for x64 linux and macos, and arm64 macos
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93 # v3.4.1
+        with:
+          node-version-file: .nvmrc
+      - name: build
+        run: |
+          npm ci
+          npm test
+          npm run prepack
+          npm dist
+      - name: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload --clobber ${{ github.ref_name }} dist/*.tar.{gz,xz}
