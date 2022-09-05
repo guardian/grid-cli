@@ -1,4 +1,4 @@
-import { Flags } from '@oclif/core'
+import { CliUx, Flags } from '@oclif/core'
 import { get } from 'lodash'
 import terminalImage from 'terminal-image'
 import terminalLink from 'terminal-link'
@@ -21,7 +21,7 @@ export default abstract class ApiCommand extends HttpCommand {
     }),
   }
 
-  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean, outputFile: string | undefined) {
+  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean, outputFile?: string | undefined) {
     const outputStream = outputFile ? createWriteStream(outputFile) : undefined
     const writeOutput = (o: string): void => {
       if (outputStream) {
@@ -86,5 +86,30 @@ export default abstract class ApiCommand extends HttpCommand {
     const endpoint = `${mainEndpoint}?q=${q}${paging}`
     const url = new URL(endpoint)
     return this.http!.get(url).then(_ => _.json())
+  }
+
+  protected async deleteImage(id: string, hardDelete: boolean) {
+    const mainEndpoint = `${this.profile!.mediaApiHost}images/${id}`
+
+    const endpoint = hardDelete ? `${mainEndpoint}/hard-delete` : mainEndpoint
+
+    const url = new URL(endpoint)
+
+    const response = await this.http!.delete(url)
+
+    if (response.status === 202) {
+      return
+    }
+
+    throw new Error(`Failed to delete image ${id}, response status ${response.status}`)
+  }
+
+  protected async confirmHardDelete(hardDelete: boolean) {
+    if (hardDelete) {
+      const userIsSure = await CliUx.ux.confirm('Running with --hardDelete will completely erase these images. All information will be irrevocably lost. Are you sure? (y/n)')
+      if (!userIsSure) {
+        this.exit(1)
+      }
+    }
   }
 }
