@@ -2,4 +2,4 @@
 
 set -e
 
-npx oclif-dev readme
+npx oclif readme

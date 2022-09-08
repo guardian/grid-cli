@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 
@@ -8,15 +8,15 @@ export default class ImageDelete extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'})
+    help: Flags.help({ char: 'h' }),
   }
 
   static args = [
-    {name: 'id', description: 'ID of image', required: true}
+    { name: 'id', description: 'ID of image', required: true },
   ]
 
   async run() {
-    const {args} = this.parse(ImageDelete)
+    const { args } = await this.parse(ImageDelete)
 
     const profile = this.profile!
     const http = this.http!

@@ -1,5 +1,5 @@
-import {flags} from '@oclif/command'
-import {URL} from 'url'
+import { Flags } from '@oclif/core'
+import { URL } from 'url'
 
 import HttpCommand from '../../base-commands/http'
 
@@ -8,16 +8,16 @@ export default class ImageDownload extends HttpCommand {
 
   static flags = {
     ...HttpCommand.flags,
-    help: flags.help({char: 'h'}),
-    directory: flags.string({char: 'd', description: 'directory to download to', default: '/tmp'}),
+    help: Flags.help({ char: 'h' }),
+    directory: Flags.string({ char: 'd', description: 'directory to download to', default: '/tmp' }),
   }
 
   static args = [
-    {name: 'id', description: 'ID of image', required: true}
+    { name: 'id', description: 'ID of image', required: true },
   ]
 
   async run() {
-    const {args, flags} = this.parse(ImageDownload)
+    const { args, flags } = await this.parse(ImageDownload)
     const profile = this.profile!
     const http = this.http!
 

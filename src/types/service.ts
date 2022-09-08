@@ -1,4 +1,4 @@
-import {URL} from 'url'
+import { URL } from 'url'
 
 interface Data {
   description: string
@@ -17,5 +17,5 @@ interface Services {
 export {
   Data,
   Service,
-  Services
+  Services,
 }
