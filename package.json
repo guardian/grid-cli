@@ -64,7 +64,7 @@
   "repository": "guardian/grid-cli",
   "scripts": {
     "dist": "oclif pack tarballs -tlinux-x64,darwin-x64,darwin-arm64",
-    "local": "./bin/run",
+    "local": "./bin/local",
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc -f stylish",
     "prepack": "rm -rf lib && tsc -b && oclif manifest && oclif readme",
