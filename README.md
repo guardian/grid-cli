@@ -49,6 +49,7 @@ To run the development build of the script, you can run `npm run local`.
 # Commands
 <!-- commands -->
 * [`grid autocomplete [SHELL]`](#grid-autocomplete-shell)
+* [`grid bulk:delete INPUT OUTPUT FAILURES`](#grid-bulkdelete-input-output-failures)
 * [`grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`](#grid-bulkrights-input-rights-output-failures)
 * [`grid collection:add-root NAME`](#grid-collectionadd-root-name)
 * [`grid collection:move-images FROM TO`](#grid-collectionmove-images-from-to)
@@ -93,6 +94,33 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v1.3.0/src/commands/autocomplete/index.ts)_
+
+## `grid bulk:delete INPUT OUTPUT FAILURES`
+
+Deletes images from a text file containing image ids
+
+```
+USAGE
+  $ grid bulk:delete [INPUT] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h] [-x]
+
+ARGUMENTS
+  INPUT     file to read, containing one grid id per line
+  OUTPUT    file to output results to
+  FAILURES  file to write bad ids to
+
+FLAGS
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
+  -x, --hard-delete       permanently erase images
+
+DESCRIPTION
+  Deletes images from a text file containing image ids
+```
+
+_See code: [src/commands/bulk/delete.ts](https://github.com/guardian/grid-cli/blob/v1.4.0/src/commands/bulk/delete.ts)_
 
 ## `grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`
 
@@ -229,14 +257,18 @@ Delete an image from Grid
 
 ```
 USAGE
-  $ grid image:delete [ID] [-p <value>] [-h]
+  $ grid image:delete [ID] [-p <value>] [-f <value>] [-t] [-h] [-x]
 
 ARGUMENTS
   ID  ID of image
 
 FLAGS
-  -h, --help             Show CLI help.
-  -p, --profile=<value>  [default: default] Profile name
+  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
+                          json
+  -h, --help              Show CLI help.
+  -p, --profile=<value>   [default: default] Profile name
+  -t, --thumbnail         show a thumbnail
+  -x, --hard-delete       permanently delete image
 
 DESCRIPTION
   Delete an image from Grid
@@ -325,17 +357,20 @@ Search for an Image from the API
 
 ```
 USAGE
-  $ grid image:search [Q] [-p <value>] [-f <value>] [-t] [-h]
+  $ grid image:search [Q] [-p <value>] [-f <value>] [-t] [-h] [-n <value>] [-s <value>] [-o <value>]
 
 ARGUMENTS
   Q  Search query
 
 FLAGS
-  -f, --field=<value>...  key or link name to print from each returned image, if none given then image will be output as
-                          json
-  -h, --help              Show CLI help.
-  -p, --profile=<value>   [default: default] Profile name
-  -t, --thumbnail         show a thumbnail
+  -f, --field=<value>...    key or link name to print from each returned image, if none given then image will be output
+                            as json
+  -h, --help                Show CLI help.
+  -n, --maxResults=<value>  [default: 10]
+  -o, --output=<value>
+  -p, --profile=<value>     [default: default] Profile name
+  -s, --pageSize=<value>    [default: 10]
+  -t, --thumbnail           show a thumbnail
 
 DESCRIPTION
   Search for an Image from the API

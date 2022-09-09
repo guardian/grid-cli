@@ -1,9 +1,11 @@
-import { Flags } from '@oclif/core'
+import { CliUx, Flags } from '@oclif/core'
 import { get } from 'lodash'
 import terminalImage from 'terminal-image'
 import terminalLink from 'terminal-link'
 
 import HttpCommand from './http'
+import type { PageInfo } from '../types/paging'
+import { createWriteStream } from 'fs'
 
 export default abstract class ApiCommand extends HttpCommand {
   static flags = {
@@ -19,7 +21,16 @@ export default abstract class ApiCommand extends HttpCommand {
     }),
   }
 
-  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean) {
+  protected async printImages(images: any[], field: string[] | undefined, thumbnail: boolean, outputFile?: string | undefined) {
+    const outputStream = outputFile ? createWriteStream(outputFile) : undefined
+    const writeOutput = (o: string): void => {
+      if (outputStream) {
+        outputStream.write(o + '\n')
+      } else {
+        process.stdout.write(o + '\n')
+      }
+    }
+
     const output = Promise.all(images.map(async image => {
       const out = field === undefined ? JSON.stringify(image, null, 2) :
         field.map(f => {
@@ -50,9 +61,9 @@ export default abstract class ApiCommand extends HttpCommand {
     }))
 
     for (const [fields, thumb] of await output) {
-      this.log(fields)
+      writeOutput(fields)
       if (thumb) {
-        this.log(thumb)
+        writeOutput(thumb)
       }
     }
   }
@@ -67,11 +78,38 @@ export default abstract class ApiCommand extends HttpCommand {
     return this.http!.get(url).then(_ => _.json())
   }
 
-  protected async search(q: string) {
+  protected async search(q: string, pageInfo?: PageInfo) {
     const mainEndpoint = `${this.profile!.mediaApiHost}images`
 
-    const endpoint = `${mainEndpoint}?q=${q}`
+    const paging = pageInfo === undefined ? '' : `&offset=${pageInfo.page * pageInfo.size}&length=${pageInfo.size}`
+
+    const endpoint = `${mainEndpoint}?q=${q}${paging}`
     const url = new URL(endpoint)
     return this.http!.get(url).then(_ => _.json())
+  }
+
+  protected async deleteImage(id: string, hardDelete: boolean) {
+    const mainEndpoint = `${this.profile!.mediaApiHost}images/${id}`
+
+    const endpoint = hardDelete ? `${mainEndpoint}/hard-delete` : mainEndpoint
+
+    const url = new URL(endpoint)
+
+    const response = await this.http!.delete(url)
+
+    if (response.status === 202) {
+      return
+    }
+
+    throw new Error(`Failed to delete image ${id}, response status ${response.status}`)
+  }
+
+  protected async confirmHardDelete(hardDelete: boolean) {
+    if (hardDelete) {
+      const userIsSure = await CliUx.ux.confirm('Running with --hardDelete will completely erase these images. All information will be irrevocably lost. Are you sure? (y/n)')
+      if (!userIsSure) {
+        this.exit(1)
+      }
+    }
   }
 }

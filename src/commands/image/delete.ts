@@ -1,14 +1,16 @@
 import { Flags } from '@oclif/core'
-import { URL } from 'url'
+import ApiCommand from '../../base-commands/api'
 
-import HttpCommand from '../../base-commands/http'
-
-export default class ImageDelete extends HttpCommand {
+export default class ImageDelete extends ApiCommand {
   static description = 'Delete an image from Grid'
 
   static flags = {
-    ...HttpCommand.flags,
+    ...ApiCommand.flags,
     help: Flags.help({ char: 'h' }),
+    'hard-delete': Flags.boolean({
+      char: 'x',
+      description: 'permanently delete image',
+    }),
   }
 
   static args = [
@@ -16,18 +18,16 @@ export default class ImageDelete extends HttpCommand {
   ]
 
   async run() {
-    const { args } = await this.parse(ImageDelete)
+    const { args, flags } = await this.parse(ImageDelete)
 
-    const profile = this.profile!
-    const http = this.http!
+    const hardDelete = flags['hard-delete']
+    await this.confirmHardDelete(hardDelete)
 
-    const url = new URL(`${profile.mediaApiHost}images/${args.id}`)
-    const response = await http.delete(url)
-
-    if (response.status === 202) {
+    try {
+      await this.deleteImage(args.id, hardDelete)
       this.log('Image deleted')
-    } else {
-      this.error(JSON.stringify(response.json()))
+    } catch (error) {
+      this.error(error as Error)
     }
   }
 }
