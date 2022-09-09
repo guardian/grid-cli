@@ -1,10 +1,7 @@
-name: release
-
-# automatically create and upload tarballs for x64 linux and macos, and arm64 macos
+name: CI
 
 on:
-  release:
-    types: [published]
+  - pull_request
 
 jobs:
   build:
@@ -20,7 +17,3 @@ jobs:
           npm test
           npm run prepack
           npm run dist
-      - name: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload --clobber ${{ github.ref_name }} dist/*.tar.{gz,xz}
