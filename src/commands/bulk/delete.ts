@@ -12,7 +12,7 @@ export default class BulkDelete extends ApiCommand {
     help: Flags.help({ char: 'h' }),
     'hard-delete': Flags.boolean({
       char: 'x',
-      description: 'permanently erase images'
+      description: 'permanently erase images',
     }),
   }
 
@@ -57,8 +57,8 @@ export default class BulkDelete extends ApiCommand {
     })
     return new Promise((resolve, reject) => {
       stream.on('end', () => resolve(lines))
-      stream.on('error', (e) => reject(e))
-    });
+      stream.on('error', e => reject(e))
+    })
   }
 
   async run() {
@@ -80,7 +80,7 @@ export default class BulkDelete extends ApiCommand {
 
     const output = createWriteStream(args.output)
 
-    let done = 0;
+    let done = 0
     for await (const id of lines(args.input)) {
       this.delete(id, hardDelete, output, failures)
       this.log(`Successfully deleted ${id} - ${++done} / ${lineCount}`)
