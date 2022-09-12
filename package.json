@@ -72,7 +72,7 @@
     "prepack": "rm -rf lib && tsc -b && oclif manifest && oclif readme",
     "test": "echo NO TESTS",
     "version": "tsc -b && oclif readme && git add README.md",
-    "prepare": "husky install"
+    "prepare": "if [ -z \"$CI\" ]; then husky install; fi"
   },
   "types": "lib/index.d.ts"
 }
