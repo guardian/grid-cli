@@ -71,7 +71,12 @@ There are a few handy scripts in the [./script](script) directory.
 * `update-readme.sh` which you should run before committing. 
 
 To run the development build of the script, you can run `npm run local`.
+
+## Releasing
+
+To release a new version, run `npm version` to get a tagged commit incrementing the version number. Push this commit onto the main branch (either via PR or directly) using `git push --tags`. [Draft a new release](https://github.com/guardian/grid-cli/releases/new), choosing your new tag as the target, and press the "Generate release notes" button, editing the notes if necessary. When you press "Publish release", a github action will run to generate and publish the release bundles - if these do not appear within a couple of minutes, check the [release workflow](https://github.com/guardian/grid-cli/actions/workflows/release.yaml) and investigate any failures.
 <!-- developingstop -->
+
 # Commands
 <!-- commands -->
 * [`grid autocomplete [SHELL]`](#grid-autocomplete-shell)
