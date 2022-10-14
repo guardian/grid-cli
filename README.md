@@ -16,12 +16,18 @@ Helpful commands for interacting with Grid, The Guardian&#39;s image management 
 <!-- tocstop -->
 # Installing
 <!-- installing -->
-grid-cli can be installed using either NPM or Brew
+grid-cli can be installed using homebrew, or run from a release tarball.
 
-## NPM
+## brew
 ```sh
-npm install -g @guardian/grid-cli
-````
+brew tap guardian/homebrew-devtools # included in Guardian developer setup!
+brew install --cask grid-cli
+```
+
+## from tarball
+
+Download the latest tarball for your system from the [latest release](https://github.com/guardian/grid-cli/releases).
+Extract with `tar xf <tarball>`, and run the contained grid command `grid/bin/grid`.
 
 <!-- installingstop -->
 # Usage
@@ -38,6 +44,26 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+
+## Setting up a profile
+
+Grid CLI supports multiple profiles, to make it easy to work on a running,
+production deployment of the Grid, or against preproduction deployments.
+
+To get started, run `grid configuration:add`. You will first be prompted to set
+the Media API hostname. This is usually the main Grid domain, prefixed with
+`api.`. For example, if you would access the Grid at `https://thegrid.com/`,
+then the Media API is probably `https://api.thegrid.com/`. If in doubt, consult
+a developer working on the Grid.
+
+You will then be prompted to add an API key - if you do not already have one,
+you should follow the instructions at
+<https://github.com/guardian/grid/blob/main/docs/03-apis/01-authentication.md#api-keys>.
+Remember to keep your API key private!!
+
+You can add further profiles by naming them with `grid configuration:add --profile <name>`.
+To use this profile, grid-cli invocations must include the `--profile <name>` argument.
+
 # Developing
 <!-- developing -->
 There are a few handy scripts in the [./script](script) directory. 
@@ -45,7 +71,12 @@ There are a few handy scripts in the [./script](script) directory.
 * `update-readme.sh` which you should run before committing. 
 
 To run the development build of the script, you can run `npm run local`.
+
+## Releasing
+
+To release a new version, run `npm version` to get a tagged commit incrementing the version number. Push this commit onto the main branch (either via PR or directly) using `git push --tags`. [Draft a new release](https://github.com/guardian/grid-cli/releases/new), choosing your new tag as the target, and press the "Generate release notes" button, editing the notes if necessary. When you press "Publish release", a github action will run to generate and publish the release bundles - if these do not appear within a couple of minutes, check the [release workflow](https://github.com/guardian/grid-cli/actions/workflows/release.yaml) and investigate any failures.
 <!-- developingstop -->
+
 # Commands
 <!-- commands -->
 * [`grid autocomplete [SHELL]`](#grid-autocomplete-shell)
