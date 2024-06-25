@@ -5,7 +5,7 @@ import lines from 'lines-async-iterator'
 import ApiCommand from '../../base-commands/api'
 
 export default class BulkDelete extends ApiCommand {
-  static description = 'Deletes images from a text file containing image ids'
+  static description = 'Deletes (or un-soft-deletes) images from a text file containing image ids'
 
   static flags = {
     ...ApiCommand.flags,
@@ -13,6 +13,10 @@ export default class BulkDelete extends ApiCommand {
     'hard-delete': Flags.boolean({
       char: 'x',
       description: 'permanently erase images',
+    }),
+    'un-soft-delete': Flags.boolean({
+      char: 'u',
+      description: 'un-soft-delete images',
     }),
   }
 
@@ -35,6 +39,21 @@ export default class BulkDelete extends ApiCommand {
       await this.deleteImage(id, hardDelete)
     } catch (error) {
       this.log(`Failed to delete ${id} ${(error as Error).message}`)
+      failures.write(`${id}\n`)
+      output.write(`${id}\t${(error as Error).message}\n`)
+      return false
+    }
+
+    output.write(`${id}\tSUCCESS\n`)
+
+    return true
+  }
+
+  async unSoftDelete(id: string, output: WriteStream, failures: WriteStream) {
+    try {
+      await this.unSoftDeleteImage(id)
+    } catch (error) {
+      this.log(`Failed to un-soft-delete ${id} ${(error as Error).message}`)
       failures.write(`${id}\n`)
       output.write(`${id}\t${(error as Error).message}\n`)
       return false
@@ -71,6 +90,7 @@ export default class BulkDelete extends ApiCommand {
     const { flags, args } = await this.parse(BulkDelete)
 
     const hardDelete = flags['hard-delete']
+    const shouldUnSoftDelete = flags['un-soft-delete']
 
     const lineCount = await this.countLines(args.input)
 
@@ -82,8 +102,9 @@ export default class BulkDelete extends ApiCommand {
 
     let done = 0
     for await (const id of lines(args.input)) {
-      this.delete(id, hardDelete, output, failures)
-      this.log(`Successfully deleted ${id} - ${++done} / ${lineCount}`)
+      await (shouldUnSoftDelete ? this.unSoftDelete(id, output, failures) : this.delete(id, hardDelete, output, failures))
+      const logKeyword = shouldUnSoftDelete ? 'un-soft-deleted' : (hardDelete ? 'hard-deleted' : 'deleted')
+      this.log(`Successfully ${logKeyword} ${id} - ${++done} / ${lineCount}`)
     }
   }
 }

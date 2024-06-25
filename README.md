@@ -128,11 +128,11 @@ _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomp
 
 ## `grid bulk:delete INPUT OUTPUT FAILURES`
 
-Deletes images from a text file containing image ids
+Deletes (or un-soft-deletes) images from a text file containing image ids
 
 ```
 USAGE
-  $ grid bulk:delete [INPUT] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h] [-x]
+  $ grid bulk:delete [INPUT] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h] [-x] [-u]
 
 ARGUMENTS
   INPUT     file to read, containing one grid id per line
@@ -145,10 +145,11 @@ FLAGS
   -h, --help              Show CLI help.
   -p, --profile=<value>   [default: default] Profile name
   -t, --thumbnail         show a thumbnail
+  -u, --un-soft-delete    un-soft-delete images
   -x, --hard-delete       permanently erase images
 
 DESCRIPTION
-  Deletes images from a text file containing image ids
+  Deletes (or un-soft-deletes) images from a text file containing image ids
 ```
 
 _See code: [src/commands/bulk/delete.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/bulk/delete.ts)_
@@ -284,11 +285,11 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.1
 
 ## `grid image:delete ID`
 
-Delete an image from Grid
+Delete (or un-soft-delete) an image from Grid
 
 ```
 USAGE
-  $ grid image:delete [ID] [-p <value>] [-f <value>] [-t] [-h] [-x]
+  $ grid image:delete [ID] [-p <value>] [-f <value>] [-t] [-h] [-x] [-u]
 
 ARGUMENTS
   ID  ID of image
@@ -299,10 +300,11 @@ FLAGS
   -h, --help              Show CLI help.
   -p, --profile=<value>   [default: default] Profile name
   -t, --thumbnail         show a thumbnail
+  -u, --un-soft-delete    un-soft-delete image
   -x, --hard-delete       permanently delete image
 
 DESCRIPTION
-  Delete an image from Grid
+  Delete (or un-soft-delete) an image from Grid
 ```
 
 _See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/delete.ts)_
