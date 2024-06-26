@@ -4,9 +4,6 @@
 Helpful commands for interacting with Grid, The Guardian&#39;s image management tool.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/@guardian/grid-cli.svg)](https://npmjs.org/package/@guardian/grid-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/@guardian/grid-cli.svg)](https://npmjs.org/package/@guardian/grid-cli)
-[![License](https://img.shields.io/npm/l/@guardian/grid-cli.svg)](https://github.com/guardian/grid-cli/blob/main/package.json)
 
 <!-- toc -->
 * [Installing](#installing)
@@ -33,9 +30,6 @@ Extract with `tar xf <tarball>`, and run the contained grid command `grid/bin/gr
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @guardian/grid-cli
-$ grid COMMAND
-running command...
 $ grid (--version)
 @guardian/grid-cli/1.6.0 darwin-arm64 node-v16.17.0
 $ grid --help [COMMAND]
