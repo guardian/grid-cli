@@ -37,7 +37,7 @@ $ npm install -g @guardian/grid-cli
 $ grid COMMAND
 running command...
 $ grid (--version)
-@guardian/grid-cli/1.5.1 darwin-arm64 node-v16.17.0
+@guardian/grid-cli/1.6.0 darwin-arm64 node-v16.17.0
 $ grid --help [COMMAND]
 USAGE
   $ grid COMMAND
@@ -128,11 +128,11 @@ _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomp
 
 ## `grid bulk:delete INPUT OUTPUT FAILURES`
 
-Deletes images from a text file containing image ids
+Deletes (or un-soft-deletes) images from a text file containing image ids
 
 ```
 USAGE
-  $ grid bulk:delete [INPUT] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h] [-x]
+  $ grid bulk:delete [INPUT] [OUTPUT] [FAILURES] [-p <value>] [-f <value>] [-t] [-h] [-x] [-u]
 
 ARGUMENTS
   INPUT     file to read, containing one grid id per line
@@ -145,13 +145,14 @@ FLAGS
   -h, --help              Show CLI help.
   -p, --profile=<value>   [default: default] Profile name
   -t, --thumbnail         show a thumbnail
+  -u, --un-soft-delete    un-soft-delete images
   -x, --hard-delete       permanently erase images
 
 DESCRIPTION
-  Deletes images from a text file containing image ids
+  Deletes (or un-soft-deletes) images from a text file containing image ids
 ```
 
-_See code: [src/commands/bulk/delete.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/bulk/delete.ts)_
+_See code: [src/commands/bulk/delete.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/bulk/delete.ts)_
 
 ## `grid bulk:rights INPUT RIGHTS OUTPUT FAILURES`
 
@@ -178,7 +179,7 @@ DESCRIPTION
   Reads a text file containing image ids, and sets their usage rights.
 ```
 
-_See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/bulk/rights.ts)_
+_See code: [src/commands/bulk/rights.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/bulk/rights.ts)_
 
 ## `grid collection:add-root NAME`
 
@@ -199,7 +200,7 @@ DESCRIPTION
   Add a root collection
 ```
 
-_See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/collection/add-root.ts)_
+_See code: [src/commands/collection/add-root.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/collection/add-root.ts)_
 
 ## `grid collection:move-images FROM TO`
 
@@ -221,7 +222,7 @@ DESCRIPTION
   Move images from one collection to another
 ```
 
-_See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/collection/move-images.ts)_
+_See code: [src/commands/collection/move-images.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/collection/move-images.ts)_
 
 ## `grid configuration:add`
 
@@ -241,7 +242,7 @@ DESCRIPTION
   Add a configuration profile
 ```
 
-_See code: [src/commands/configuration/add.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/configuration/add.ts)_
+_See code: [src/commands/configuration/add.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/configuration/add.ts)_
 
 ## `grid configuration:read`
 
@@ -260,7 +261,7 @@ DESCRIPTION
   Echos current config
 ```
 
-_See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/configuration/read.ts)_
+_See code: [src/commands/configuration/read.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/configuration/read.ts)_
 
 ## `grid help [COMMAND]`
 
@@ -284,11 +285,11 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.1
 
 ## `grid image:delete ID`
 
-Delete an image from Grid
+Delete (or un-soft-delete) an image from Grid
 
 ```
 USAGE
-  $ grid image:delete [ID] [-p <value>] [-f <value>] [-t] [-h] [-x]
+  $ grid image:delete [ID] [-p <value>] [-f <value>] [-t] [-h] [-x] [-u]
 
 ARGUMENTS
   ID  ID of image
@@ -299,13 +300,14 @@ FLAGS
   -h, --help              Show CLI help.
   -p, --profile=<value>   [default: default] Profile name
   -t, --thumbnail         show a thumbnail
+  -u, --un-soft-delete    un-soft-delete image
   -x, --hard-delete       permanently delete image
 
 DESCRIPTION
-  Delete an image from Grid
+  Delete (or un-soft-delete) an image from Grid
 ```
 
-_See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/delete.ts)_
+_See code: [src/commands/image/delete.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/delete.ts)_
 
 ## `grid image:download ID`
 
@@ -327,7 +329,7 @@ DESCRIPTION
   describe the command here
 ```
 
-_See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/download.ts)_
+_See code: [src/commands/image/download.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/download.ts)_
 
 ## `grid image:get [ID]`
 
@@ -352,7 +354,7 @@ DESCRIPTION
   Get an Image from the API
 ```
 
-_See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/get.ts)_
+_See code: [src/commands/image/get.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/get.ts)_
 
 ## `grid image:reingest ID`
 
@@ -380,7 +382,7 @@ DESCRIPTION
   Reingest an image already present in the images bucket
 ```
 
-_See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/reingest.ts)_
+_See code: [src/commands/image/reingest.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/reingest.ts)_
 
 ## `grid image:search [Q]`
 
@@ -407,7 +409,7 @@ DESCRIPTION
   Search for an Image from the API
 ```
 
-_See code: [src/commands/image/search.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/search.ts)_
+_See code: [src/commands/image/search.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/search.ts)_
 
 ## `grid image:upload IMAGE`
 
@@ -428,7 +430,7 @@ DESCRIPTION
   Upload an image to Grid. Can be a local file or a publicly accessible URL
 ```
 
-_See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/upload.ts)_
+_See code: [src/commands/image/upload.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/upload.ts)_
 
 ## `grid image:visit ID`
 
@@ -449,7 +451,7 @@ DESCRIPTION
   View image in the browser
 ```
 
-_See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/image/visit.ts)_
+_See code: [src/commands/image/visit.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/image/visit.ts)_
 
 ## `grid util:curl URL`
 
@@ -473,7 +475,7 @@ DESCRIPTION
   Make an authenticated request to a Grid URL. Assumes response is JSON.
 ```
 
-_See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/util/curl.ts)_
+_See code: [src/commands/util/curl.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/util/curl.ts)_
 
 ## `grid util:id-file FILE`
 
@@ -493,5 +495,5 @@ DESCRIPTION
   Print the ID a file would get if uploaded to Grid
 ```
 
-_See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.5.1/src/commands/util/id-file.ts)_
+_See code: [src/commands/util/id-file.ts](https://github.com/guardian/grid-cli/blob/v1.6.0/src/commands/util/id-file.ts)_
 <!-- commandsstop -->

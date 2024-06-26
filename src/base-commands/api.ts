@@ -104,6 +104,20 @@ export default abstract class ApiCommand extends HttpCommand {
     throw new Error(`Failed to delete image ${id}, response status ${response.status}`)
   }
 
+  protected async unSoftDeleteImage(id: string) {
+    const endpoint = `${this.profile!.mediaApiHost}images/${id}/undelete`
+
+    const url = new URL(endpoint)
+
+    const response = await this.http!.put(url)
+
+    if (response.status === 202) {
+      return
+    }
+
+    throw new Error(`Failed to un-soft-delete image ${id}, response status ${response.status}`)
+  }
+
   protected async confirmHardDelete(hardDelete: boolean) {
     if (hardDelete) {
       const userIsSure = await CliUx.ux.confirm('Running with --hardDelete will completely erase these images. All information will be irrevocably lost. Are you sure? (y/n)')

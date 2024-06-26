@@ -54,7 +54,7 @@ class Http {
     })
   }
 
-  public put = (url: URL, body: any) => {
+  public put = (url: URL, body?: any) => {
     return fetch(url.toString(), {
       method: 'PUT',
       headers: this.headers(),
