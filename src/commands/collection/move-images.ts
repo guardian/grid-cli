@@ -56,7 +56,7 @@ export default class CollectionMoveImages extends HttpCommand {
     while (offset === 0 || images.length < totalImages) {
       const results = await this.fetchImagesForCollection(collectionFrom, pageSize, offset)
       totalImages = results.total
-      images = [...images, results.data]
+      images = [...images, ...results.data]
       offset += pageSize
       this.log(`Fetched ${images.length} of ${totalImages} images`)
     }
