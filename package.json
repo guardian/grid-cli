@@ -13,7 +13,7 @@
     "@oclif/plugin-help": "^5.1.12",
     "@oclif/plugin-warn-if-update-available": "^2.0.4",
     "colors": "^1.4.0",
-    "diff": "^4.0.2",
+    "diff": "^8.0.3",
     "lines-async-iterator": "^0.9.0",
     "lodash": "^4.17.20",
     "node-fetch": "^2.6.0",
