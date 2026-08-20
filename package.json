@@ -74,5 +74,8 @@
     "version": "tsc -b && oclif readme && git add README.md",
     "prepare": "if [ -z \"$CI\" ]; then husky install; fi"
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "overrides": {
+    "js-yaml": "^3.15.1"
+  }
 }
