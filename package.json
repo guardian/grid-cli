@@ -76,6 +76,6 @@
   },
   "types": "lib/index.d.ts",
   "overrides": {
-    "js-yaml": "^3.15.1"
+    "js-yaml": "^3.15.2"
   }
 }
